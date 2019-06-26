@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JMenuBar" name="jMenuBar1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Edit"/>
+          </Properties>
+        </Menu>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JMenuBar" name="jMenuBar2">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="true"/>
+      </Layout>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenu3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Edit"/>
+          </Properties>
+        </Menu>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lblNome" min="-2" max="-2" attributes="0"/>
+                  <Component id="lnlNomeMae" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblPaciente" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblVinculo" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblDtEntrada" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmpNome" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cmpDtEntrada" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cmpVinculo" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cmpPaciente" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cmpNomeMae" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="lblDtNasc" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cmpDtNasc" min="-2" pref="113" max="-2" attributes="0"/>
+                                  <Component id="lblLocal" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="177" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cmpLocal" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblDocumento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmpDocumento" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblTipo" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmpListaDoc" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="btnCapturar" max="32767" attributes="0"/>
+                          <Component id="lblImagem" pref="160" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="btCadastrar" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <Component id="lblNome" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Component id="cmpNome" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblDtNasc" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                      <Component id="cmpDtNasc" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="lblDocumento" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Component id="cmpDocumento" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lblTipo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Component id="cmpListaDoc" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="lblLocal" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblImagem" min="-2" pref="120" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCapturar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmpLocal" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
+              <Component id="lnlNomeMae" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Component id="cmpNomeMae" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <Component id="lblPaciente" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Component id="cmpPaciente" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <Component id="lblVinculo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Component id="cmpVinculo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <Component id="lblDtEntrada" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+              <Component id="cmpDtEntrada" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <Component id="btCadastrar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lblNome">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpNome">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmpNomeKeyPressed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpNome.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="JPCadastro_cmpNome"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDocumento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Documento:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpDocumento">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmpDocumentoKeyPressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTipo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tipo:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmpListaDoc">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="RG"/>
+            <StringItem index="1" value="RE"/>
+            <StringItem index="2" value="CPF"/>
+            <StringItem index="3" value="CPTS"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lnlNomeMae">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome da m&#xe3;e:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpNomeMae">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpNomeMae.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblPaciente">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Paciente:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpPaciente">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpPaciente.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblLocal">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Local:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmpLocal">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="18">
+            <StringItem index="0" value="Selecionar"/>
+            <StringItem index="1" value="Observa&#xe7;&#xe3;o Feminina"/>
+            <StringItem index="2" value="Observa&#xe7;&#xe3;o Masculina"/>
+            <StringItem index="3" value="Observa&#xe7;&#xe3;o Inf&#xe2;ntil"/>
+            <StringItem index="4" value="Choque"/>
+            <StringItem index="5" value="Sutura"/>
+            <StringItem index="6" value="Centro Obst&#xe9;trico"/>
+            <StringItem index="7" value="Centro Cirurgico"/>
+            <StringItem index="8" value="UTI Adulto"/>
+            <StringItem index="9" value="Ber&#xe7;ario"/>
+            <StringItem index="10" value="Cl&#xed;nica Obst&#xe9;trica"/>
+            <StringItem index="11" value="Cl&#xed;nica NeuroCirurgica"/>
+            <StringItem index="12" value="Cl&#xed;nica Ortop&#xe9;dica"/>
+            <StringItem index="13" value="Cl&#xed;nica Pedi&#xe1;trica"/>
+            <StringItem index="14" value="UTI Pedi&#xe1;trica"/>
+            <StringItem index="15" value="Cl&#xed;nica Cir&#xfa;rgica"/>
+            <StringItem index="16" value="Cl&#xed;nica de Sa&#xfa;de Mental"/>
+            <StringItem index="17" value="Cl&#xed;nica Geral"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDtNasc">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data de Nascimento:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="cmpDtNasc">
+      <Properties>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
+          <Format format="    ## / ## / ####" subtype="-1" type="5"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblVinculo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="V&#xed;nculo:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpVinculo">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpVinculo.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDtEntrada">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Data de Entrada:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="cmpDtEntrada">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="EEEE, d&apos; de &apos;MMMM&apos; de &apos;yyyy&apos;. &apos;HH&apos;h &apos;mm&apos;min &apos;ss&apos;s &apos;z" subtype="-1" type="1"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="btCadastrar">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Cadastrar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCadastrarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblImagem">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="99" green="99" red="99" type="rgb"/>
+        </Property>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
+            <EtchetBorder/>
+          </Border>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCapturar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Capturar foto"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCapturarActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
