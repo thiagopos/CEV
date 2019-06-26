@@ -1,14 +1,12 @@
 package com.utils;
 
 import com.model.Visitante;
-import com.view.JPCadastro;
 import fr.w3blog.zpl.constant.ZebraFont;
 import fr.w3blog.zpl.model.ZebraLabel;
 import fr.w3blog.zpl.model.ZebraPrintException;
 import fr.w3blog.zpl.model.element.ZebraText;
 import fr.w3blog.zpl.utils.ZebraUtils;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Zebra {
     private final String IP = "10.40.17.99";
@@ -24,7 +22,7 @@ public class Zebra {
         try {
             ZebraUtils.printZpl(zebraLabel, "10.40.17.99", 9100);
         } catch (ZebraPrintException ex) {
-            Logger.getLogger(JPCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Impressora não localizada.");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.view;
 
+import com.github.sarxos.webcam.Webcam;
 import java.util.Calendar;
 import org.bson.Document;
 import com.model.Documento;
@@ -26,7 +27,9 @@ public class JPCadastro extends javax.swing.JPanel {
            
     public JPCadastro() {
         initComponents();           
-        bd.iniciar();
+        bd.iniciar();    
+        visitante = new Visitante();
+        image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
     }
    
     @SuppressWarnings("unchecked")
@@ -236,11 +239,13 @@ public class JPCadastro extends javax.swing.JPanel {
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         
-        instanciaValores();       
-        cmpDtEntrada.setValue(dataInicial.getTime());     
-        bd.Add(new Document(bd.inserir(visitante)));
-        limparCampos();
-        Zebra.print(visitante);
+        
+        if(instanciaValores()){            
+            bd.Add(new Document(bd.inserir(visitante)));
+            limparCampos();
+            System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
+            //Zebra.print(visitante);
+        }
         
     }//GEN-LAST:event_btCadastrarActionPerformed
     
@@ -249,8 +254,6 @@ public class JPCadastro extends javax.swing.JPanel {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER){
             
             String nome = cmpNome.getText();
-            
-            
             
             data = bd.buscaNome(nome).first();
             System.out.println(data.size());
@@ -263,7 +266,7 @@ public class JPCadastro extends javax.swing.JPanel {
             cmpNomeMae.setText((String)data.get("Nome da Mãe"));
             cmpPaciente.setText((String)data.get("Paciente"));
             cmpLocal.setSelectedItem((String)data.get("Local"));
-            cmpVinculo.setText((String)data.get("Vínculo"));           
+            cmpVinculo.setText((String)data.get("Vínculo"));    
             setImage(B64.decodeToImage((String)data.get("Imagem")));
         }
     }//GEN-LAST:event_cmpNomeKeyPressed
@@ -271,7 +274,6 @@ public class JPCadastro extends javax.swing.JPanel {
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
             
-
             String doc = cmpDocumento.getText();
 
             data = bd.buscaDoc(doc);
@@ -288,36 +290,44 @@ public class JPCadastro extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmpDocumentoKeyPressed
 
-    public void instanciaValores(){
-        if(preenchido()){            
+    public boolean instanciaValores(){
+        
+        if(preenchido()){
+                  
             visitante.setNome(cmpNome.getText().trim());
             visitante.setNomeMae(cmpNomeMae.getText().trim());
-            visitante.setPaciente(cmpPaciente.getText().trim());
+            visitante.setPaciente(cmpPaciente.getText().trim());            
             visitante.setDoc(new Documento(cmpDocumento.getText().trim(), 
                             (String) cmpListaDoc.getSelectedItem()));
-            visitante.setDataEntrada(cmpDtEntrada.getText().trim());
+            visitante.setDataEntrada(dataInicial.getTime().toString());
             visitante.setDataNascimento(cmpDtNasc.getText().trim());
             visitante.setVinculo(cmpVinculo.getText().trim());
-            visitante.setLocal((String) cmpLocal.getSelectedItem());
-            visitante.setImagem(B64.encodeToString(image, "JPG"));
+            visitante.setLocal((String) cmpLocal.getSelectedItem());                
+            visitante.setImagem(B64.encodeToString(image, "JPG"));            
+            return true;
         }else{
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
-        }
+            return false;
+        }  
+        
     }
     
     private boolean preenchido(){
+        
         if(cmpNome.getText().trim().isEmpty() || cmpDtNasc.getText().trim().isEmpty())
             return false;        
         if(cmpDocumento.getText().trim().isEmpty() || cmpNomeMae.getText().trim().isEmpty())
             return false;        
         if(cmpPaciente.getText().trim().isEmpty() || cmpVinculo.getText().trim().isEmpty())
             return false;
-        if(cmpDtEntrada.getText().trim().isEmpty() || cmpLocal.getSelectedIndex()== 0)
+        if(cmpLocal.getSelectedIndex()== 0)
             return false;        
         return true;
+        
     }    
     
     private void limparCampos(){
+        
         cmpNome.setText("");
         cmpDtNasc.setText("");
         cmpDocumento.setText("");
@@ -328,17 +338,27 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpVinculo.setText("");
         cmpDtEntrada.setText("");
         lblImagem.setIcon(new ImageIcon());
+        
     }
     
     private void btnCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapturarActionPerformed
-        JFWebCam frameWebCam = new JFWebCam(this);
-        frameWebCam.setVisible(true);
+       
+        Webcam webcam = Webcam.getDefault();
+        if(webcam != null){
+            JFWebCam frameWebCam = new JFWebCam(this);
+            frameWebCam.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Camera não conectada ou apresentando defeito.");
+        }
+        
     }//GEN-LAST:event_btnCapturarActionPerformed
     
     public void setImage(BufferedImage image) {
+     
         this.image = image;
         lblImagem.setIcon(new ImageIcon(
                 image.getScaledInstance(160, 120, Image.SCALE_FAST)));
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
