@@ -8,6 +8,7 @@ import com.utils.UppercaseDocumentFilter;
 import com.sun.glass.events.KeyEvent;
 import com.utils.B64;
 import com.utils.BancoDeDados;
+import com.utils.Zebra;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
@@ -239,6 +240,7 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpDtEntrada.setValue(dataInicial.getTime());     
         bd.Add(new Document(bd.inserir(visitante)));
         limparCampos();
+        Zebra.print(visitante);
         
     }//GEN-LAST:event_btCadastrarActionPerformed
     
