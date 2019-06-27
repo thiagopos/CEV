@@ -8,25 +8,9 @@ package com.utils;
 //Importações
 import com.model.Visitante;
 import com.mongodb.BasicDBObject;
-import com.mongodb.ConnectionString;
 import com.mongodb.client.*;
-import com.mongodb.ServerAddress;
-import com.mongodb.Block;
-import com.mongodb.ClientSessionOptions;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.*;
-import com.mongodb.client.model.Projections;
 import org.bson.Document;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-import org.bson.conversions.Bson;
 
 /**
  *

@@ -245,8 +245,8 @@ public class JPCadastro extends javax.swing.JPanel {
         if (instanciaValores()) {
             bd.Add(new Document(bd.inserir(visitante)));
             limparCampos();
-            //System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
-            Zebra.print(visitante);
+            System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
+            //Zebra.print(visitante);
         }
 
     }//GEN-LAST:event_btCadastrarActionPerformed
@@ -352,7 +352,7 @@ public class JPCadastro extends javax.swing.JPanel {
 
     }
 
-    private void limparCampos() {
+    public void limparCampos() {
 
         cmpNome.setText("");
         cmpDtNasc.setText("");

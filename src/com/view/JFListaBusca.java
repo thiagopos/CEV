@@ -119,6 +119,7 @@ public class JFListaBusca extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        cadastro.limparCampos();
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
 
