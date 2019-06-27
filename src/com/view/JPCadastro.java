@@ -245,8 +245,8 @@ public class JPCadastro extends javax.swing.JPanel {
         if (instanciaValores()) {
             bd.Add(new Document(bd.inserir(visitante)));
             limparCampos();
-            System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
-            //Zebra.print(visitante);
+            //System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
+            Zebra.print(visitante);
         }
 
     }//GEN-LAST:event_btCadastrarActionPerformed
@@ -274,12 +274,23 @@ public class JPCadastro extends javax.swing.JPanel {
                 cmpVinculo.setText((String) data.get("Vínculo"));
                 setImage(B64.decodeToImage((String) data.get("Imagem")));
             } else {
-                JFListaBusca jfListaBusca = new JFListaBusca(listaBusca);
-                jfListaBusca.setVisible(true);                
+                JFListaBusca jfListaBusca = new JFListaBusca(this, listaBusca);
+                jfListaBusca.setVisible(true);
             }
         }
     }//GEN-LAST:event_cmpNomeKeyPressed
 
+    public void autoPreencher(Document visitante) {
+        cmpNome.setText((String) visitante.get("Nome"));
+        cmpDtNasc.setText((String) visitante.get("Data de Nascimento"));
+        cmpDocumento.setText((String) visitante.get("Documento"));
+        cmpListaDoc.setSelectedItem((String) visitante.get("Tipo"));
+        cmpNomeMae.setText((String) visitante.get("Nome da Mãe"));
+        cmpPaciente.setText((String) visitante.get("Paciente"));
+        cmpLocal.setSelectedItem((String) visitante.get("Local"));
+        cmpVinculo.setText((String) visitante.get("Vínculo"));
+        setImage(B64.decodeToImage((String) visitante.get("Imagem")));
+    }
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
 

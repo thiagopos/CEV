@@ -1,16 +1,16 @@
 package com.view;
 
 import java.util.ArrayList;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 
 public class JFListaBusca extends javax.swing.JFrame {
+    private JPCadastro cadastro;
+    private ArrayList<Document> listaBusca;
 
-    ArrayList<Document> listaBusca;
-
-    public JFListaBusca(ArrayList<Document> listaBusca) {
+    public JFListaBusca(JPCadastro cadastro, ArrayList<Document> listaBusca) {
         initComponents();
+        this.cadastro = cadastro;
         this.listaBusca = listaBusca;
         this.setLocationRelativeTo(null);
         preenchePlanilha();
@@ -59,6 +59,11 @@ public class JFListaBusca extends javax.swing.JFrame {
         table.setColumnSelectionAllowed(true);
         table.setPreferredSize(new java.awt.Dimension(285, 224));
         table.getTableHeader().setReorderingAllowed(false);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table);
         table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (table.getColumnModel().getColumnCount() > 0) {
@@ -117,6 +122,20 @@ public class JFListaBusca extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
 
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        if(evt.getClickCount() == 2){
+            int row = table.getSelectedRow();
+            String documento = (String) table.getValueAt(row, 1);
+            for(Document d: listaBusca){
+                if(d.containsValue(documento)){
+                    cadastro.autoPreencher(d);
+                    this.dispose();
+                    break;
+                }                    
+            }
+        }
+    }//GEN-LAST:event_tableMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFechar;
@@ -126,16 +145,16 @@ public class JFListaBusca extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void preenchePlanilha() {
-        DefaultTableModel model = (DefaultTableModel)table.getModel();        
-        model.setValueAt("tenso", 1, 1);               
-
+        DefaultTableModel model = (DefaultTableModel)table.getModel();
+        
         for (int x = 0; x < listaBusca.size(); x++) {
             System.out.println(x);
             model.setValueAt((String) listaBusca.get(x).get("Nome"), x,0);
             model.setValueAt((String) listaBusca.get(x).get("Documento"), x,1);
             model.setValueAt((String) listaBusca.get(x).get("Data de Nascimento"), x,2);
             model.setValueAt((String) listaBusca.get(x).get("Nome da Mãe"), x,3);
-        }        
-       
-    }
+        }
+        
+    }    
+   
 }
