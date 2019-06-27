@@ -275,6 +275,7 @@ public class JPCadastro extends javax.swing.JPanel {
                 setImage(B64.decodeToImage((String) data.get("Imagem")));
             } else {
                 JFListaBusca jfListaBusca = new JFListaBusca(listaBusca);
+                jfListaBusca.setVisible(true);                
             }
         }
     }//GEN-LAST:event_cmpNomeKeyPressed

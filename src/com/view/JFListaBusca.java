@@ -1,14 +1,19 @@
 package com.view;
 
 import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
 
 public class JFListaBusca extends javax.swing.JFrame {
+
     ArrayList<Document> listaBusca;
-  
+
     public JFListaBusca(ArrayList<Document> listaBusca) {
         initComponents();
         this.listaBusca = listaBusca;
+        this.setLocationRelativeTo(null);
+        preenchePlanilha();
     }
 
     @SuppressWarnings("unchecked")
@@ -16,13 +21,13 @@ public class JFListaBusca extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        ResultadoPct = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         btnFechar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ResultadoPct.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -51,20 +56,20 @@ public class JFListaBusca extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        ResultadoPct.setColumnSelectionAllowed(true);
-        ResultadoPct.setPreferredSize(new java.awt.Dimension(285, 224));
-        ResultadoPct.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(ResultadoPct);
-        ResultadoPct.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (ResultadoPct.getColumnModel().getColumnCount() > 0) {
-            ResultadoPct.getColumnModel().getColumn(0).setResizable(false);
-            ResultadoPct.getColumnModel().getColumn(0).setPreferredWidth(160);
-            ResultadoPct.getColumnModel().getColumn(1).setResizable(false);
-            ResultadoPct.getColumnModel().getColumn(1).setPreferredWidth(10);
-            ResultadoPct.getColumnModel().getColumn(2).setResizable(false);
-            ResultadoPct.getColumnModel().getColumn(2).setPreferredWidth(10);
-            ResultadoPct.getColumnModel().getColumn(3).setResizable(false);
-            ResultadoPct.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.setColumnSelectionAllowed(true);
+        table.setPreferredSize(new java.awt.Dimension(285, 224));
+        table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table);
+        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(0).setPreferredWidth(160);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(1).setPreferredWidth(10);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(2).setPreferredWidth(10);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(3).setPreferredWidth(100);
         }
 
         btnFechar.setText("Fechar");
@@ -112,12 +117,25 @@ public class JFListaBusca extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnFecharActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable ResultadoPct;
     private javax.swing.JButton btnFechar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
+    private void preenchePlanilha() {
+        DefaultTableModel model = (DefaultTableModel)table.getModel();        
+        model.setValueAt("tenso", 1, 1);               
+
+        for (int x = 0; x < listaBusca.size(); x++) {
+            System.out.println(x);
+            model.setValueAt((String) listaBusca.get(x).get("Nome"), x,0);
+            model.setValueAt((String) listaBusca.get(x).get("Documento"), x,1);
+            model.setValueAt((String) listaBusca.get(x).get("Data de Nascimento"), x,2);
+            model.setValueAt((String) listaBusca.get(x).get("Nome da Mãe"), x,3);
+        }        
+       
+    }
 }
