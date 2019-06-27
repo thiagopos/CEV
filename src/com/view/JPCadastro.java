@@ -5,6 +5,7 @@ import java.util.Calendar;
 import org.bson.Document;
 import com.model.Documento;
 import com.model.Visitante;
+import com.mongodb.client.FindIterable;
 import com.utils.UppercaseDocumentFilter;
 import com.sun.glass.events.KeyEvent;
 import com.utils.B64;
@@ -12,26 +13,28 @@ import com.utils.BancoDeDados;
 import com.utils.Zebra;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
 public class JPCadastro extends javax.swing.JPanel {
-    private Visitante visitante;    
+
+    private Visitante visitante;
     private BufferedImage image;
-    private BancoDeDados bd = new BancoDeDados();         
+    private BancoDeDados bd = new BancoDeDados();
     private final Calendar dataInicial = Calendar.getInstance();
     private final DocumentFilter filter = new UppercaseDocumentFilter();
     private Document data;
-           
+
     public JPCadastro() {
-        initComponents();           
-        bd.iniciar();    
+        initComponents();
+        bd.iniciar();
         visitante = new Visitante();
         image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
     }
-   
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -238,96 +241,107 @@ public class JPCadastro extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
-        
-        
-        if(instanciaValores()){            
+
+        if (instanciaValores()) {
             bd.Add(new Document(bd.inserir(visitante)));
             limparCampos();
             System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
             //Zebra.print(visitante);
         }
-        
+
     }//GEN-LAST:event_btCadastrarActionPerformed
-    
+
     private void cmpNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpNomeKeyPressed
-        
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER){
-            
-            String nome = cmpNome.getText();
-            
-            data = bd.buscaNome(nome).first();
-            System.out.println(data.size());
-            String jsonString = data.toJson();
-            data = Document.parse(jsonString);;
-            
-            cmpDtNasc.setText((String)data.get("Data de Nascimento"));
-            cmpDocumento.setText((String)data.get("Documento"));
-            cmpListaDoc.setSelectedItem((String)data.get("Tipo"));
-            cmpNomeMae.setText((String)data.get("Nome da Mãe"));
-            cmpPaciente.setText((String)data.get("Paciente"));
-            cmpLocal.setSelectedItem((String)data.get("Local"));
-            cmpVinculo.setText((String)data.get("Vínculo"));    
-            setImage(B64.decodeToImage((String)data.get("Imagem")));
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
+            ArrayList<Document> listaBusca = new ArrayList();
+            String nome = cmpNome.getText().trim();
+            FindIterable<Document> buscaNome = bd.buscaNome(nome);
+            for (Document a : buscaNome) {
+                listaBusca.add(a);
+            }
+            if (listaBusca.size() == 1) {
+                data = bd.buscaNome(nome).first();
+                String jsonString = data.toJson();
+                data = Document.parse(jsonString);;
+                cmpDtNasc.setText((String) data.get("Data de Nascimento"));
+                cmpDocumento.setText((String) data.get("Documento"));
+                cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
+                cmpNomeMae.setText((String) data.get("Nome da Mãe"));
+                cmpPaciente.setText((String) data.get("Paciente"));
+                cmpLocal.setSelectedItem((String) data.get("Local"));
+                cmpVinculo.setText((String) data.get("Vínculo"));
+                setImage(B64.decodeToImage((String) data.get("Imagem")));
+            } else {
+                JFListaBusca jfListaBusca = new JFListaBusca(listaBusca);
+            }
         }
     }//GEN-LAST:event_cmpNomeKeyPressed
 
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+
             String doc = cmpDocumento.getText();
 
-            data = bd.buscaDoc(doc);
-            String jsonString = data.toJson();
-            data = Document.parse(jsonString);
-            cmpNome.setText((String) data.get("Nome"));
-            cmpDtNasc.setText((String) data.get("Data de Nascimento"));
-            cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
-            cmpNomeMae.setText((String) data.get("Nome da Mãe"));
-            cmpPaciente.setText((String) data.get("Paciente"));
-            cmpLocal.setSelectedItem((String) data.get("Local"));
-            cmpVinculo.setText((String) data.get("Vínculo"));
-            setImage(B64.decodeToImage((String)data.get("Imagem")));
+            if (doc.length() > 8) {
+                data = bd.buscaDoc(doc);
+                String jsonString = data.toJson();
+                data = Document.parse(jsonString);
+                cmpNome.setText((String) data.get("Nome"));
+                cmpDtNasc.setText((String) data.get("Data de Nascimento"));
+                cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
+                cmpNomeMae.setText((String) data.get("Nome da Mãe"));
+                cmpPaciente.setText((String) data.get("Paciente"));
+                cmpLocal.setSelectedItem((String) data.get("Local"));
+                cmpVinculo.setText((String) data.get("Vínculo"));
+                setImage(B64.decodeToImage((String) data.get("Imagem")));
+            }
         }
     }//GEN-LAST:event_cmpDocumentoKeyPressed
 
-    public boolean instanciaValores(){
-        
-        if(preenchido()){
-                  
+    public boolean instanciaValores() {
+
+        if (preenchido()) {
+
             visitante.setNome(cmpNome.getText().trim());
             visitante.setNomeMae(cmpNomeMae.getText().trim());
-            visitante.setPaciente(cmpPaciente.getText().trim());            
-            visitante.setDoc(new Documento(cmpDocumento.getText().trim(), 
-                            (String) cmpListaDoc.getSelectedItem()));
+            visitante.setPaciente(cmpPaciente.getText().trim());
+            visitante.setDoc(new Documento(cmpDocumento.getText().trim(),
+                    (String) cmpListaDoc.getSelectedItem()));
             visitante.setDataEntrada(dataInicial.getTime().toString());
             visitante.setDataNascimento(cmpDtNasc.getText().trim());
             visitante.setVinculo(cmpVinculo.getText().trim());
-            visitante.setLocal((String) cmpLocal.getSelectedItem());                
-            visitante.setImagem(B64.encodeToString(image, "JPG"));            
+            visitante.setLocal((String) cmpLocal.getSelectedItem());
+            visitante.setImagem(B64.encodeToString(image, "JPG"));
             return true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
             return false;
-        }  
-        
+        }
+
     }
-    
-    private boolean preenchido(){
-        
-        if(cmpNome.getText().trim().isEmpty() || cmpDtNasc.getText().trim().isEmpty())
-            return false;        
-        if(cmpDocumento.getText().trim().isEmpty() || cmpNomeMae.getText().trim().isEmpty())
-            return false;        
-        if(cmpPaciente.getText().trim().isEmpty() || cmpVinculo.getText().trim().isEmpty())
+
+    private boolean preenchido() {
+
+        if (cmpNome.getText().trim().isEmpty() || cmpDtNasc.getText().trim().isEmpty()) {
             return false;
-        if(cmpLocal.getSelectedIndex()== 0)
-            return false;        
+        }
+        if (cmpDocumento.getText().trim().isEmpty() || cmpNomeMae.getText().trim().isEmpty()) {
+            return false;
+        }
+        if (cmpPaciente.getText().trim().isEmpty() || cmpVinculo.getText().trim().isEmpty()) {
+            return false;
+        }
+        if (cmpLocal.getSelectedIndex() == 0) {
+            return false;
+        }
         return true;
-        
-    }    
-    
-    private void limparCampos(){
-        
+
+    }
+
+    private void limparCampos() {
+
         cmpNome.setText("");
         cmpDtNasc.setText("");
         cmpDocumento.setText("");
@@ -338,27 +352,27 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpVinculo.setText("");
         cmpDtEntrada.setText("");
         lblImagem.setIcon(new ImageIcon());
-        
+
     }
-    
+
     private void btnCapturarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapturarActionPerformed
-       
+
         Webcam webcam = Webcam.getDefault();
-        if(webcam != null){
+        if (webcam != null) {
             JFWebCam frameWebCam = new JFWebCam(this);
             frameWebCam.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Camera não conectada ou apresentando defeito.");
         }
-        
+
     }//GEN-LAST:event_btnCapturarActionPerformed
-    
+
     public void setImage(BufferedImage image) {
-     
+
         this.image = image;
         lblImagem.setIcon(new ImageIcon(
                 image.getScaledInstance(160, 120, Image.SCALE_FAST)));
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
