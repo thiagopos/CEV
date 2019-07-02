@@ -49,12 +49,17 @@ public class JPInicio extends javax.swing.JPanel {
         lblSenha = new javax.swing.JLabel();
         cmpSenha = new javax.swing.JPasswordField();
         btnEntrar = new javax.swing.JButton();
+        btnPrimeiroAcesso = new javax.swing.JButton();
 
         lblUsuario.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblUsuario.setText("Usuário");
 
+        cmpUsuario.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
         lblSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblSenha.setText("Senha");
+
+        cmpSenha.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         btnEntrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnEntrar.setText("Entrar");
@@ -64,6 +69,9 @@ public class JPInicio extends javax.swing.JPanel {
             }
         });
 
+        btnPrimeiroAcesso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnPrimeiroAcesso.setText("Primeiro acesso ?");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,14 +79,15 @@ public class JPInicio extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmpSenha)
+                    .addComponent(cmpUsuario)
+                    .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUsuario)
                             .addComponent(lblSenha))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(cmpSenha)
-                    .addComponent(cmpUsuario)
-                    .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))
+                    .addComponent(btnPrimeiroAcesso, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,7 +103,9 @@ public class JPInicio extends javax.swing.JPanel {
                 .addComponent(cmpSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEntrar)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPrimeiroAcesso)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -103,8 +114,6 @@ public class JPInicio extends javax.swing.JPanel {
         
         BancoDeDados bd = new BancoDeDados();
         Documento documento = new Documento();
-        
-        bd.iniciar();
         
         usuario = cmpUsuario.getText();
         senha = String.valueOf(cmpSenha.getPassword());
@@ -120,6 +129,7 @@ public class JPInicio extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;
+    private javax.swing.JButton btnPrimeiroAcesso;
     private javax.swing.JPasswordField cmpSenha;
     private javax.swing.JTextField cmpUsuario;
     private javax.swing.JLabel lblSenha;

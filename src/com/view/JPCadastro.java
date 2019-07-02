@@ -29,8 +29,7 @@ public class JPCadastro extends javax.swing.JPanel {
     private Document data;
 
     public JPCadastro() {
-        initComponents();
-        bd.iniciar();
+        initComponents();        
         visitante = new Visitante();
         image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
     }
@@ -243,7 +242,7 @@ public class JPCadastro extends javax.swing.JPanel {
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
 
         if (instanciaValores()) {
-            bd.Add(new Document(bd.inserir(visitante)));
+            bd.add(visitante);
             limparCampos();
             System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
             //Zebra.print(visitante);

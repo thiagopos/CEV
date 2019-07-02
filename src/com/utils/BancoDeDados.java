@@ -1,40 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.utils;
 
-//Importações
+import com.model.Funcionario;
 import com.model.Visitante;
-import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.*;
+import java.util.ArrayList;
 import org.bson.Document;
 
-/**
- *
- * @author Administrador
- */
 public class BancoDeDados {
 
-    //atributos
-    private MongoDatabase database;
-    private Document documento;
-    private MongoCollection<BasicDBObject> collection1;
-    private MongoCollection<Document> collection;
-    private MongoClient DB;
-    
-    //construtor
-    public BancoDeDados() {
+    private final String CONNECTION = "mongodb://localhost:27017";
+
+    public void add(Visitante visitante) {
+        MongoClient client = MongoClients.create(CONNECTION);
+        MongoDatabase database = client.getDatabase("Visitante");
+        MongoCollection<Document> visitantes;
+        visitantes = database.getCollection("Visitantes");
+        visitantes.insertOne(toDocument(visitante));
+        client.close();
     }
 
-    public void iniciar() {
-        DB = MongoClients.create("mongodb://localhost:27017");
+    public void add(Funcionario funcionario) {
+        MongoClient client = MongoClients.create(CONNECTION);
+        MongoDatabase database = client.getDatabase("Funcionario");
+        MongoCollection<Document> funcionarios;
+        funcionarios = database.getCollection("Funcionarios");
+        funcionarios.insertOne(toDocument(funcionario));
+        client.close();
     }
 
-    public Document inserir(Visitante visitante) {
-        database = DB.getDatabase("Visitante");
+    private Document toDocument(Visitante visitante) {
         Document documento = new Document("Nome", visitante.getNome())
                 .append("Data de Nascimento", visitante.getDataNascimento())
                 .append("Documento", visitante.getDoc().getNumeroDoc())
@@ -48,46 +43,73 @@ public class BancoDeDados {
         return documento;
     }
 
-    public void Add(Document doc) {
-        collection = database.getCollection("Visitante");
-        collection.insertOne(doc);
+    private Document toDocument(Funcionario funcionario) {
+        Document documento = new Document("Nome", funcionario.getNome())
+                .append("Data de Nascimento", funcionario.getDataNascimento())
+                .append("Documento", funcionario.getDoc().getNumeroDoc())
+                .append("Tipo", funcionario.getDoc().getTipoDoc())
+                .append("", funcionario.getPeriodo())
+                .append("", funcionario.getUsuario())
+                .append("", funcionario.getSenha())
+                .append("", funcionario.getAcesso());
+        return documento;
     }
 
-    public FindIterable<Document> buscaNome(String nome) {
-        database = DB.getDatabase("Visitante");
-        collection = database.getCollection("Visitante");
-        FindIterable<Document> busca = collection.find().filter(regex("Nome", nome));
-        return busca;
+    public ArrayList<Visitante> buscaNome(String nome) {
+        MongoClient client = MongoClients.create(CONNECTION);
+        MongoDatabase database = client.getDatabase("Visitante");
+        MongoCollection<Document> visitantes;
+        visitantes = database.getCollection("Visitantes");
+
+        ArrayList<Document> result = (ArrayList<Document>) visitantes.find()
+                .filter(regex("Nome", nome)).into(new ArrayList<Document>());
+
+        client.close();
+        return toArrayList(result);
     }
-    
-    public Document buscaDoc(String doc){
-        database = DB.getDatabase("Visitante");
-        collection = database.getCollection("Visitante");
+
+    private ArrayList<Visitante> toArrayList(ArrayList<Document> visitantes) {
+        ArrayList<Visitante> listaVisitantes = new ArrayList();
+        Visitante visitante = new Visitante();
+        for (Document d : visitantes) {
+            listaVisitantes.add(parseDocument(d));
+        }
+    }
+
+    private Visitante parseDocument(Document d) {
+        Visitante visitante = new Visitante();
+        String jsonString = d.toJson();
+        d = Document.parse(jsonString);;
+        visitante.setDataNascimento((String) d.get("Data de Nascimento"));
+        visitante
+        d.get("Documento"));
+        ((String) d.get("Tipo"));
+        ((String) d.get("Nome da Mãe"));
+        (String) d.get("Paciente"));
+        (String) d.get("Local"));
+        (String) d.get("Vínculo"));
+        setImage(B64.decodeToImage((String) d.get("Imagem")));
+    }
+
+    public Document buscaDoc(String doc) {
+        database1 = DB.getDatabase("Visitante");
+        collection = database1.getCollection("Visitante");
         Document busca = new Document("Documento", doc);
-        Object encontrado = collection.find(busca).first();        
-        return (Document)encontrado;
+        Object encontrado = collection.find(busca).first();
+        return (Document) encontrado;
     }
-    
-    public Document teste(FindIterable<Document> teste){        
-        database = DB.getDatabase("Visitante");
-        collection = database.getCollection("Visitante");
+
+    public Document teste(FindIterable<Document> teste) {
+        database1 = DB.getDatabase("Visitante");
+        collection = database1.getCollection("Visitante");
         FindIterable<Document> entrada = teste;
         Document encontrado = entrada.first();
         return encontrado;
     }
-    /*
-    public AggregateIterable<Document> contadorBusca(String nome) {
-        database = DB.getDatabase("Visitante");
-        collection = database.getCollection("Visitante");
-        AggregateIterable<Document> busca = collection.aggregate(Arrays.asList(
-                Aggregates.match(regex("Nome", nome)),
-                Aggregates.count()));
-        return busca;
-    }
-    */
-    public long contadorBusca(String nome){
-        database = DB.getDatabase("Visitante");
-        collection = database.getCollection("Visitante");
+
+    public long contadorBusca(String nome) {
+        database1 = DB.getDatabase("Visitante");
+        collection = database1.getCollection("Visitante");
         long contador = collection.countDocuments(regex("Nome", nome));
         return contador;
     }
