@@ -8,11 +8,27 @@ import static com.mongodb.client.model.Filters.*;
 import java.util.ArrayList;
 import org.bson.Document;
 
+/*  A refatoração desta classe se fez necessária para que as demais 
+classes do projeto não tivessem que tratar da camada de banco de dados,
+como a manipulação de objetos do tipo Document ou tratar a conexão com o
+banco de dados.
+    Os metodos add() são responsáveis por receber os objetos, iniciar a
+conexão com o banco de dados, persistir os dados e fechar a conexão.
+    Ainda não foram implementados os objetos que farão os updates nos dados
+cadastrados de visitente, e a possibilidade de deletar cadastros de funcionários,
+algo que ainda não foi pensado no modelo (my fault).
+    Também será implementado um método que faz a busca pelo usuario e senha do 
+funcionário, de forma que desonere a classe JPInicio que esta responsavel por 
+todo o tratamento.
+    Essa será a unica classe que importa os pacotes do MongoDB, quando isso 
+for possível saberemos que o código esta refatorado.
+*/
+
+
 public class BancoDeDados {
-
+    
     private final String CONNECTION = "mongodb://localhost:27017";
-
-    // REPETIÇÃO DEMAIS A SEGUIR.
+        
     //ADD VISITANTE      
     public void add(Visitante visitante) {
         MongoClient client = MongoClients.create(CONNECTION);
@@ -31,6 +47,7 @@ public class BancoDeDados {
         funcionarios.insertOne(toDocument(funcionario));
         client.close();
     }
+    
     //CONVERTE VISITANTE PARA DOCUMENT
     private Document toDocument(Visitante visitante) {
         Document documento = new Document("Nome", visitante.getNome())
