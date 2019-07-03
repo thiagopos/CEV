@@ -1,5 +1,6 @@
 package com.utils;
 
+import com.model.Documento;
 import com.model.Funcionario;
 import com.model.Visitante;
 import com.mongodb.client.*;
@@ -11,6 +12,8 @@ public class BancoDeDados {
 
     private final String CONNECTION = "mongodb://localhost:27017";
 
+    // REPETIÇÃO DEMAIS A SEGUIR.
+    //ADD VISITANTE      
     public void add(Visitante visitante) {
         MongoClient client = MongoClients.create(CONNECTION);
         MongoDatabase database = client.getDatabase("Visitante");
@@ -19,7 +22,7 @@ public class BancoDeDados {
         visitantes.insertOne(toDocument(visitante));
         client.close();
     }
-
+    //ADD FUNCIONARIO 
     public void add(Funcionario funcionario) {
         MongoClient client = MongoClients.create(CONNECTION);
         MongoDatabase database = client.getDatabase("Funcionario");
@@ -28,7 +31,7 @@ public class BancoDeDados {
         funcionarios.insertOne(toDocument(funcionario));
         client.close();
     }
-
+    //CONVERTE VISITANTE PARA DOCUMENT
     private Document toDocument(Visitante visitante) {
         Document documento = new Document("Nome", visitante.getNome())
                 .append("Data de Nascimento", visitante.getDataNascimento())
@@ -42,19 +45,19 @@ public class BancoDeDados {
                 .append("Imagem", visitante.getImagem());
         return documento;
     }
-
+    //CONVERTE VISITANTE PARA DOCUMENT
     private Document toDocument(Funcionario funcionario) {
         Document documento = new Document("Nome", funcionario.getNome())
                 .append("Data de Nascimento", funcionario.getDataNascimento())
                 .append("Documento", funcionario.getDoc().getNumeroDoc())
                 .append("Tipo", funcionario.getDoc().getTipoDoc())
-                .append("", funcionario.getPeriodo())
-                .append("", funcionario.getUsuario())
-                .append("", funcionario.getSenha())
-                .append("", funcionario.getAcesso());
+                .append("Periodo", funcionario.getPeriodo())
+                .append("Usuario", funcionario.getUsuario())
+                .append("Senha", funcionario.getSenha())
+                .append("Acesso", funcionario.getAcesso());
         return documento;
     }
-
+    //BUSCA NOME REGEX
     public ArrayList<Visitante> buscaNome(String nome) {
         MongoClient client = MongoClients.create(CONNECTION);
         MongoDatabase database = client.getDatabase("Visitante");
@@ -62,42 +65,59 @@ public class BancoDeDados {
         visitantes = database.getCollection("Visitantes");
 
         ArrayList<Document> result = (ArrayList<Document>) visitantes.find()
-                .filter(regex("Nome", nome)).into(new ArrayList<Document>());
+                .filter(regex("Nome", nome)).into(new ArrayList<>());
 
         client.close();
         return toArrayList(result);
     }
-
+    
+    //CRIA ARRAYLIST DE OBJETOS
     private ArrayList<Visitante> toArrayList(ArrayList<Document> visitantes) {
+        
         ArrayList<Visitante> listaVisitantes = new ArrayList();
-        Visitante visitante = new Visitante();
-        for (Document d : visitantes) {
+        
+        for (Document d : visitantes)
             listaVisitantes.add(parseDocument(d));
-        }
+                
+        return listaVisitantes;
+        
     }
-
-    private Visitante parseDocument(Document d) {
-        Visitante visitante = new Visitante();
-        String jsonString = d.toJson();
-        d = Document.parse(jsonString);;
-        visitante.setDataNascimento((String) d.get("Data de Nascimento"));
-        visitante
-        d.get("Documento"));
-        ((String) d.get("Tipo"));
-        ((String) d.get("Nome da Mãe"));
-        (String) d.get("Paciente"));
-        (String) d.get("Local"));
-        (String) d.get("Vínculo"));
-        setImage(B64.decodeToImage((String) d.get("Imagem")));
+    
+    // FAZ O PARSE DE VISITANTES
+    private Visitante parseDocument(Document d) {      
+               
+        d = Document.parse(d.toJson());
+        Visitante visitante = new Visitante(
+            (String) d.get("Nome"),
+            (String) d.get("Data de Nascimento"),
+            new Documento(
+                (String) d.get("Documento"), 
+                (String) d.get("Tipo")),
+            (String) d.get("Nome da Mãe"),
+            (String) d.get("Paciente"),
+            (String) d.get("Local"),
+            (String) d.get("Vínculo"),
+            (String) d.get("Data de Entrada"),
+            (String) d.get("Imagem")           
+        );
+        
+        return visitante;
+        
     }
-
-    public Document buscaDoc(String doc) {
-        database1 = DB.getDatabase("Visitante");
-        collection = database1.getCollection("Visitante");
-        Document busca = new Document("Documento", doc);
-        Object encontrado = collection.find(busca).first();
+    
+    //DAQUI PRA FRENTE NADA FEITO
+    
+    public Document buscaDoc(String documento) {
+        MongoClient client = MongoClients.create(CONNECTION);
+        MongoDatabase database = client.getDatabase("Visitante");
+        MongoCollection<Document> visitantes;
+        visitantes = database.getCollection("Visitantes");        
+        Object encontrado = visitantes.find(
+            new Document("Documento", documento)).first();
         return (Document) encontrado;
     }
+    
+    /*
 
     public Document teste(FindIterable<Document> teste) {
         database1 = DB.getDatabase("Visitante");
@@ -112,5 +132,5 @@ public class BancoDeDados {
         collection = database1.getCollection("Visitante");
         long contador = collection.countDocuments(regex("Nome", nome));
         return contador;
-    }
+    } */
 }
