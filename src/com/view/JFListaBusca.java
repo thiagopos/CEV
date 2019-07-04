@@ -1,18 +1,17 @@
 package com.view;
 
+import com.model.Visitante;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import org.bson.Document;
 
 public class JFListaBusca extends javax.swing.JFrame {
-    private JPCadastro cadastro;
-    private ArrayList<Document> listaBusca;
+    private final JPCadastro cadastro;
+    private final ArrayList<Visitante> listaBusca;
 
-    public JFListaBusca(JPCadastro cadastro, ArrayList<Document> listaBusca) {
+    public JFListaBusca(JPCadastro cadastro, ArrayList<Visitante> listaBusca) {
         initComponents();
         this.cadastro = cadastro;
         this.listaBusca = listaBusca;
-        this.setLocationRelativeTo(null);
         preenchePlanilha();
     }
 
@@ -116,6 +115,7 @@ public class JFListaBusca extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -127,8 +127,8 @@ public class JFListaBusca extends javax.swing.JFrame {
         if(evt.getClickCount() == 2){
             int row = table.getSelectedRow();
             String documento = (String) table.getValueAt(row, 1);
-            for(Document d: listaBusca){
-                if(d.containsValue(documento)){
+            for(Visitante d: listaBusca){
+                if(d.getDoc().getNumeroDoc().equals(documento)){
                     cadastro.autoPreencher(d);
                     this.dispose();
                     break;
@@ -150,10 +150,10 @@ public class JFListaBusca extends javax.swing.JFrame {
         
         for (int x = 0; x < listaBusca.size(); x++) {
             System.out.println(x);
-            model.setValueAt((String) listaBusca.get(x).get("Nome"), x,0);
-            model.setValueAt((String) listaBusca.get(x).get("Documento"), x,1);
-            model.setValueAt((String) listaBusca.get(x).get("Data de Nascimento"), x,2);
-            model.setValueAt((String) listaBusca.get(x).get("Nome da Mãe"), x,3);
+            model.setValueAt((String) listaBusca.get(x).getNome(), x,0);
+            model.setValueAt((String) listaBusca.get(x).getDoc().getNumeroDoc(), x,1);
+            model.setValueAt((String) listaBusca.get(x).getDataNascimento(), x,2);
+            model.setValueAt((String) listaBusca.get(x).getNomeMae(), x,3);
         }
         
     }    

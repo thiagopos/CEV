@@ -19,6 +19,16 @@ import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
+/*  Infelizmente apesar dos meus esforços essa classe tem
+muito a ser refatorado. Começando pela WebCam, a mesma não
+deveria ser responsavel por carregar nenhum de seus métodos
+tendo em vista que existe outro JFrame para tal.
+    A conversão no banco para base64 também deverá ser 
+responsabilidade da classe BancoDeDados tendo em vista que 
+a única funcionalidade desse algoritmo é para persistir os 
+dados.
+*/
+
 public class JPCadastro extends javax.swing.JPanel {
 
     private Visitante visitante;
@@ -29,8 +39,7 @@ public class JPCadastro extends javax.swing.JPanel {
     private Document data;
 
     public JPCadastro() {
-        initComponents();
-        bd.iniciar();
+        initComponents();        
         visitante = new Visitante();
         image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
     }
@@ -243,7 +252,7 @@ public class JPCadastro extends javax.swing.JPanel {
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
 
         if (instanciaValores()) {
-            bd.Add(new Document(bd.inserir(visitante)));
+            bd.add(visitante);
             limparCampos();
             System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
             //Zebra.print(visitante);
@@ -255,24 +264,21 @@ public class JPCadastro extends javax.swing.JPanel {
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            ArrayList<Document> listaBusca = new ArrayList();
+            ArrayList<Visitante> listaBusca = new ArrayList();
             String nome = cmpNome.getText().trim();
-            FindIterable<Document> buscaNome = bd.buscaNome(nome);
-            for (Document a : buscaNome) {
+            ArrayList<Visitante> buscaNome = bd.buscaNome(nome);
+            for (Visitante a : buscaNome) {
                 listaBusca.add(a);
             }
-            if (listaBusca.size() == 1) {
-                data = bd.buscaNome(nome).first();
-                String jsonString = data.toJson();
-                data = Document.parse(jsonString);;
-                cmpDtNasc.setText((String) data.get("Data de Nascimento"));
-                cmpDocumento.setText((String) data.get("Documento"));
-                cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
-                cmpNomeMae.setText((String) data.get("Nome da Mãe"));
-                cmpPaciente.setText((String) data.get("Paciente"));
-                cmpLocal.setSelectedItem((String) data.get("Local"));
-                cmpVinculo.setText((String) data.get("Vínculo"));
-                setImage(B64.decodeToImage((String) data.get("Imagem")));
+            if (listaBusca.size() == 1) {           
+                cmpDtNasc.setText(listaBusca.get(0).getDataNascimento());
+                cmpDocumento.setText(listaBusca.get(0).getDoc().getNumeroDoc());
+                cmpListaDoc.setSelectedItem(listaBusca.get(0).getDoc().getTipoDoc());
+                cmpNomeMae.setText(listaBusca.get(0).getNomeMae());
+                cmpPaciente.setText(listaBusca.get(0).getPaciente());
+                cmpLocal.setSelectedItem(listaBusca.get(0).getLocal());
+                cmpVinculo.setText(listaBusca.get(0).getVinculo());
+                setImage(B64.decodeToImage(listaBusca.get(0).getImagem()));
             } else {
                 JFListaBusca jfListaBusca = new JFListaBusca(this, listaBusca);
                 jfListaBusca.setVisible(true);
@@ -280,16 +286,16 @@ public class JPCadastro extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cmpNomeKeyPressed
 
-    public void autoPreencher(Document visitante) {
-        cmpNome.setText((String) visitante.get("Nome"));
-        cmpDtNasc.setText((String) visitante.get("Data de Nascimento"));
-        cmpDocumento.setText((String) visitante.get("Documento"));
-        cmpListaDoc.setSelectedItem((String) visitante.get("Tipo"));
-        cmpNomeMae.setText((String) visitante.get("Nome da Mãe"));
-        cmpPaciente.setText((String) visitante.get("Paciente"));
-        cmpLocal.setSelectedItem((String) visitante.get("Local"));
-        cmpVinculo.setText((String) visitante.get("Vínculo"));
-        setImage(B64.decodeToImage((String) visitante.get("Imagem")));
+    public void autoPreencher(Visitante visitante) {
+        cmpNome.setText(visitante.getNome());
+        cmpDtNasc.setText(visitante.getDataNascimento());
+        cmpDocumento.setText(visitante.getDoc().getNumeroDoc());
+        cmpListaDoc.setSelectedItem(visitante.getDoc().getTipoDoc());
+        cmpNomeMae.setText(visitante.getNomeMae());
+        cmpPaciente.setText(visitante.getPaciente());
+        cmpLocal.setSelectedItem(visitante.getLocal());
+        cmpVinculo.setText(visitante.getVinculo());
+        setImage(B64.decodeToImage(visitante.getImagem()));
     }
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
