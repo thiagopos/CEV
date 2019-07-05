@@ -6,7 +6,7 @@ public class JFPrincipal extends javax.swing.JFrame {
  
     public JFPrincipal() {
         initComponents();
-        setPanel(new JPInicio());
+        setPanel(new JPLogin());
     }  
  
     @SuppressWarnings("unchecked")

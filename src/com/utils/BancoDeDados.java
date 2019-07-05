@@ -46,6 +46,7 @@ public class BancoDeDados {
         funcionarios = database.getCollection("Funcionarios");
         funcionarios.insertOne(toDocument(funcionario));
         client.close();
+        System.out.println("Funcionario adicionado");
     }
     
     //CONVERTE VISITANTE PARA DOCUMENT
@@ -70,8 +71,8 @@ public class BancoDeDados {
                 .append("Tipo", funcionario.getDoc().getTipoDoc())
                 .append("Periodo", funcionario.getPeriodo())
                 .append("Usuario", funcionario.getUsuario())
-                .append("Senha", funcionario.getSenha())
-                .append("Acesso", funcionario.getAcesso());
+                .append("Senha", funcionario.getSenha());
+                //.append("Acesso", funcionario.getGrupo());
         return documento;
     }
     //BUSCA NOME REGEX

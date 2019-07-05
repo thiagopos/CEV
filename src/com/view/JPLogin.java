@@ -16,10 +16,10 @@ import org.bson.Document;
  *
  * @author x002559
  */
-public class JPInicio extends javax.swing.JPanel {
+public class JPLogin extends javax.swing.JPanel {
 
     /**
-     * Creates new form JPInicio
+     * Creates new form JPLogin
      */    
     MongoClient teste = MongoClients.create("mongodb://localhost:27017");
     JFrame principal = new JFrame();
@@ -31,7 +31,7 @@ public class JPInicio extends javax.swing.JPanel {
     private Document busca;
     
     
-    public JPInicio() {
+    public JPLogin() {
         initComponents();
     }
 
