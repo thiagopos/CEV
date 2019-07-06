@@ -1,35 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.view;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.utils.BancoDeDados;
-import com.model.Documento;
+
 import com.model.Funcionario;
-import javax.swing.*;
-import org.bson.Document;
+import com.utils.BancoDeDados;
 
-/**
- *
- * @author x002559
- */
 public class JPLogin extends javax.swing.JPanel {
-
-    /**
-     * Creates new form JPLogin
-     */    
-    MongoClient teste = MongoClients.create("mongodb://localhost:27017");
-    JFrame principal = new JFrame();
-    JPanel panel = new JPanel();
-    JPCadastro painelC = new JPCadastro();
-    JPFuncionario painelF = new JPFuncionario();
-    private String usuario;
-    private String senha;
-    private Document busca;
-    
     
     public JPLogin() {
         initComponents();
@@ -110,20 +84,10 @@ public class JPLogin extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
-        
         BancoDeDados bd = new BancoDeDados();
-        Documento documento = new Documento();
-        
-        usuario = cmpUsuario.getText();
-        senha = String.valueOf(cmpSenha.getPassword());
-        //busca = bd.validacaoFuncionario(usuario, senha);
-        if (busca.get("Usuário").equals(usuario) && busca.get("Senha").equals(senha)){
-            principal.setContentPane(painelF);
-        }
-        cmpUsuario.setText("");
-        cmpSenha.setText("");
-        
+        String usuario = cmpUsuario.getText().trim();
+        String senha = new String(cmpSenha.getPassword());
+        Funcionario logado = bd.login(usuario, senha);        
     }//GEN-LAST:event_btnEntrarActionPerformed
 
 

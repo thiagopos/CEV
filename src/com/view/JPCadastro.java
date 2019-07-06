@@ -5,12 +5,10 @@ import java.util.Calendar;
 import org.bson.Document;
 import com.model.Documento;
 import com.model.Visitante;
-import com.mongodb.client.FindIterable;
 import com.utils.UppercaseDocumentFilter;
 import com.sun.glass.events.KeyEvent;
 import com.utils.B64;
 import com.utils.BancoDeDados;
-import com.utils.Zebra;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -31,9 +29,9 @@ dados.
 
 public class JPCadastro extends javax.swing.JPanel {
 
-    private Visitante visitante;
+    private final Visitante visitante;
     private BufferedImage image;
-    private BancoDeDados bd = new BancoDeDados();
+    private final BancoDeDados bd = new BancoDeDados();
     private final Calendar dataInicial = Calendar.getInstance();
     private final DocumentFilter filter = new UppercaseDocumentFilter();
     private Document data;
@@ -267,19 +265,12 @@ public class JPCadastro extends javax.swing.JPanel {
             ArrayList<Visitante> listaBusca = new ArrayList();
             String nome = cmpNome.getText().trim();
             ArrayList<Visitante> buscaNome = bd.buscaNome(nome);
-            for (Visitante a : buscaNome) {
+            buscaNome.forEach((a) -> {
                 listaBusca.add(a);
-            }
-            if (listaBusca.size() == 1) {           
-                cmpDtNasc.setText(listaBusca.get(0).getDataNascimento());
-                cmpDocumento.setText(listaBusca.get(0).getDoc().getNumeroDoc());
-                cmpListaDoc.setSelectedItem(listaBusca.get(0).getDoc().getTipoDoc());
-                cmpNomeMae.setText(listaBusca.get(0).getNomeMae());
-                cmpPaciente.setText(listaBusca.get(0).getPaciente());
-                cmpLocal.setSelectedItem(listaBusca.get(0).getLocal());
-                cmpVinculo.setText(listaBusca.get(0).getVinculo());
-                setImage(B64.decodeToImage(listaBusca.get(0).getImagem()));
-            } else {
+            });
+            if (listaBusca.size() == 1)  
+                autoPreencher(listaBusca.get(0));
+            else {
                 JFListaBusca jfListaBusca = new JFListaBusca(this, listaBusca);
                 jfListaBusca.setVisible(true);
             }
@@ -300,20 +291,11 @@ public class JPCadastro extends javax.swing.JPanel {
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            String doc = cmpDocumento.getText();
+            String documento = cmpDocumento.getText();
 
-            if (doc.length() > 8) {
-                data = bd.buscaDoc(doc);
-                String jsonString = data.toJson();
-                data = Document.parse(jsonString);
-                cmpNome.setText((String) data.get("Nome"));
-                cmpDtNasc.setText((String) data.get("Data de Nascimento"));
-                cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
-                cmpNomeMae.setText((String) data.get("Nome da Mãe"));
-                cmpPaciente.setText((String) data.get("Paciente"));
-                cmpLocal.setSelectedItem((String) data.get("Local"));
-                cmpVinculo.setText((String) data.get("Vínculo"));
-                setImage(B64.decodeToImage((String) data.get("Imagem")));
+            if (documento.length() > 8) {
+                Visitante result = bd.buscaDocumento(documento);                
+                autoPreencher(result);
             }
         }
     }//GEN-LAST:event_cmpDocumentoKeyPressed
@@ -351,10 +333,7 @@ public class JPCadastro extends javax.swing.JPanel {
         if (cmpPaciente.getText().trim().isEmpty() || cmpVinculo.getText().trim().isEmpty()) {
             return false;
         }
-        if (cmpLocal.getSelectedIndex() == 0) {
-            return false;
-        }
-        return true;
+        return cmpLocal.getSelectedIndex() != 0;
 
     }
 

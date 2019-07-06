@@ -2,21 +2,22 @@ package com.view;
 
 import com.model.Documento;
 import com.model.Funcionario;
-import com.model.Grupo;
 import com.utils.BancoDeDados;
 import com.utils.UppercaseDocumentFilter;
+import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
 public class JPFuncionario extends javax.swing.JPanel {
+
     private Funcionario funcionario;
     private final DocumentFilter filter = new UppercaseDocumentFilter();
-    
+
     public JPFuncionario() {
-        initComponents();        
-    
+        initComponents();
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,7 +140,7 @@ public class JPFuncionario extends javax.swing.JPanel {
                     .addComponent(cmpUsuario)
                     .addComponent(cmpGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +168,7 @@ public class JPFuncionario extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmpDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmpListaDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lnlUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmpUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -185,38 +186,47 @@ public class JPFuncionario extends javax.swing.JPanel {
                 .addComponent(cmpGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btCadastrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
-       funcionario = new Funcionario(
-               cmpNome.getText(),
-               cmpDtNasc.getText(),
-               new Documento(
-                  cmpDocumento.getText(),
-                  (String) cmpListaDoc.getSelectedItem()
-               ),
-               (String) cmpPeriodo.getSelectedItem(),
-               new String(cmpSenha.getPassword()),               
-               grupoSelecionado()
-       );
-       
-       new BancoDeDados().add(funcionario);
+        funcionario = new Funcionario(
+                cmpNome.getText(),
+                cmpDtNasc.getText(),
+                new Documento(
+                        cmpDocumento.getText(),
+                        (String) cmpListaDoc.getSelectedItem()
+                ),
+                (String) cmpPeriodo.getSelectedItem(),
+                cmpUsuario.getText(),
+                new String(cmpSenha.getPassword()),
+                (String) cmpGrupo.getSelectedItem()
+        );
+        if (comparaSenha() && preenchido()) {
+            new BancoDeDados().add(funcionario);
+        }
     }//GEN-LAST:event_btCadastrarActionPerformed
-    private Grupo grupoSelecionado(){
-        int index = cmpGrupo.getSelectedIndex();
-        if(index == 1)
-            return Grupo.FUNCIONARIO;
-        if(index == 2)
-            return Grupo.MODERADOR;
-        if(index == 3)
-            return Grupo.ADMIN; 
-        return null;
-    }
-    
-    private Boolean validaCampos(){
+
+    private boolean comparaSenha() {
+        if (!cmpSenha.equals(cmpSenhaConfirmacao)) {
+            JOptionPane.showMessageDialog(null, "Fomulário não preenchido corretamente.\n"
+                    + "Verifique se as senhas conferem.");
+            cmpSenha.setText("");
+            cmpSenhaConfirmacao.setText("");
+            return false;
+        }
         return true;
+    }
+
+    private Boolean preenchido() {
+        if (cmpNome.getText().trim().isEmpty() || cmpDtNasc.getText().trim().isEmpty()) {
+            return false;
+        }
+        if (cmpDocumento.getText().trim().isEmpty() || cmpUsuario.getText().trim().isEmpty()) {
+            return false;
+        }
+        return cmpGrupo.getSelectedIndex() != 0;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;

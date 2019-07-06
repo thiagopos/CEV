@@ -5,15 +5,16 @@ public class Funcionario extends Pessoa {
     private String periodo;
     private String usuario;
     private String senha;
-    private Grupo grupo;
+    private String grupo;
     
     public Funcionario() {
     }
 
     public Funcionario(String nome, String dataNascimento, Documento doc,
-            String periodo, String senha, Grupo grupo) {
+            String periodo, String usuario, String senha, String grupo) {
         super(nome, dataNascimento, doc);
-        this.periodo = periodo;
+        this.periodo = periodo;        
+        this.usuario = usuario;
         this.senha = senha;
         this.grupo = grupo;
     }
@@ -34,11 +35,11 @@ public class Funcionario extends Pessoa {
         return senha;
     }
 
-    public Grupo getGrupo() {
+    public String getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(String grupo) {
         this.grupo = grupo;
     }
 
