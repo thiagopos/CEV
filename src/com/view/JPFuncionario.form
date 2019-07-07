@@ -41,7 +41,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[489, 459]"/>
+      <Dimension value="[412, 380]"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -100,7 +100,7 @@
                   <Component id="cmpGrupo" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
                   <Component id="btCadastrar" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="95" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -137,7 +137,6 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
               <Component id="lnlUsuario" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cmpUsuario" min="-2" max="-2" attributes="0"/>
@@ -155,7 +154,7 @@
               <Component id="cmpGrupo" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btCadastrar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="140" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

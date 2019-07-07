@@ -1,6 +1,7 @@
 package com.view;
 
 import com.model.Funcionario;
+import com.sun.glass.events.KeyEvent;
 import com.utils.BancoDeDados;
 
 public class JPLogin extends javax.swing.JPanel {
@@ -31,6 +32,11 @@ public class JPLogin extends javax.swing.JPanel {
         lblSenha.setText("Senha");
 
         cmpSenha.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cmpSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmpSenhaKeyPressed(evt);
+            }
+        });
 
         btnEntrar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnEntrar.setText("Entrar");
@@ -85,8 +91,15 @@ public class JPLogin extends javax.swing.JPanel {
         String usuario = cmpUsuario.getText().trim();
         String senha = new String(cmpSenha.getPassword());
         Funcionario logado = bd.login(usuario, senha);
-        principal.setFuncionarioLogado(logado);        
+        principal.setFuncionarioLogado(logado); 
+        principal.acesso();
     }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void cmpSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnEntrar.doClick();
+        }
+    }//GEN-LAST:event_cmpSenhaKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEntrar;

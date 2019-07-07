@@ -17,16 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
-/*  Infelizmente apesar dos meus esforços essa classe tem
-muito a ser refatorado. Começando pela WebCam, a mesma não
-deveria ser responsavel por carregar nenhum de seus métodos
-tendo em vista que existe outro JFrame para tal.
-    A conversão no banco para base64 também deverá ser 
-responsabilidade da classe BancoDeDados tendo em vista que 
-a única funcionalidade desse algoritmo é para persistir os 
-dados.
-*/
-
 public class JPCadastro extends javax.swing.JPanel {
 
     private final Visitante visitante;
