@@ -28,8 +28,7 @@ public class BancoDeDados {
         MongoCollection<Document> funcionarios;
         funcionarios = database.getCollection("Funcionarios");
         funcionarios.insertOne(toDocument(funcionario));
-        client.close();
-        System.out.println("Funcionario adicionado");
+        client.close();        
     }    
    
     private Document toDocument(Visitante visitante) {
@@ -131,8 +130,25 @@ public class BancoDeDados {
         
         Document result = funcionarios.find().filter(
             new Document("Usuario", usuario).append("Senha", senha)).first();
-               
-        return parseFuncionario(result);
+        if(result!=null)
+           return parseFuncionario(result);
+        return null;
+    }
+    
+    public boolean usuarioExistente(String usuario){
+        MongoClient client = MongoClients.create(CONNECTION);
+        MongoDatabase database = client.getDatabase("Funcionario");
+        MongoCollection<Document> funcionarios;
+        funcionarios = database.getCollection("Funcionarios");
+        
+        try{
+            Document result = funcionarios.find().filter(
+            new Document("Usuario", usuario)).first();
+            return (!result.isEmpty());
+        } catch(NullPointerException ex){
+            return false;
+        }      
+       
     }
     
     public Visitante buscaDocumento(String documento) {

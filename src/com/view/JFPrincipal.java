@@ -1,12 +1,14 @@
 package com.view;
 
+import com.model.Funcionario;
 import javax.swing.JPanel;
 
 public class JFPrincipal extends javax.swing.JFrame {      
- 
+    private Funcionario funcionarioLogado;
+    
     public JFPrincipal() {
         initComponents();
-        setPanel(new JPLogin());
+        setPanel(new JPLogin(this));
     }  
  
     @SuppressWarnings("unchecked")
@@ -113,6 +115,14 @@ public class JFPrincipal extends javax.swing.JFrame {
                 new JFPrincipal().setVisible(true);
             }
         });
+    }
+
+    public Funcionario getFuncionarioLogado() {
+        return funcionarioLogado;
+    }
+
+    public void setFuncionarioLogado(Funcionario funcionarioLogado) {
+        this.funcionarioLogado = funcionarioLogado;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

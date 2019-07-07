@@ -191,32 +191,62 @@ public class JPFuncionario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
-        funcionario = new Funcionario(
-                cmpNome.getText(),
-                cmpDtNasc.getText(),
-                new Documento(
-                        cmpDocumento.getText(),
-                        (String) cmpListaDoc.getSelectedItem()
-                ),
-                (String) cmpPeriodo.getSelectedItem(),
-                cmpUsuario.getText(),
-                new String(cmpSenha.getPassword()),
-                (String) cmpGrupo.getSelectedItem()
-        );
-        if (comparaSenha() && preenchido()) {
-            new BancoDeDados().add(funcionario);
+        if (preenchido()) {
+            funcionario = new Funcionario(
+                    cmpNome.getText(),
+                    cmpDtNasc.getText(),
+                    new Documento(
+                            cmpDocumento.getText(),
+                            (String) cmpListaDoc.getSelectedItem()
+                    ),
+                    (String) cmpPeriodo.getSelectedItem(),
+                    cmpUsuario.getText(),
+                    new String(cmpSenha.getPassword()),
+                    (String) cmpGrupo.getSelectedItem()
+            );
+
+            if (senhaValida()) {
+                new BancoDeDados().add(funcionario);
+                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso.");
+                limparCampos();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Preencher todos campos corretamente.");
         }
     }//GEN-LAST:event_btCadastrarActionPerformed
 
-    private boolean comparaSenha() {
-        if (!cmpSenha.equals(cmpSenhaConfirmacao)) {
-            JOptionPane.showMessageDialog(null, "Fomulário não preenchido corretamente.\n"
-                    + "Verifique se as senhas conferem.");
+    public void limparCampos(){
+        cmpNome.setText("");
+        cmpDocumento.setText("");
+        cmpDtNasc.setText("");
+        cmpGrupo.setSelectedIndex(0);
+        cmpListaDoc.setSelectedIndex(0);
+        cmpPeriodo.setSelectedIndex(0);
+        cmpSenha.setText("");
+        cmpSenhaConfirmacao.setText("");
+    }
+    
+    private boolean senhaValida() {
+        String senha = new String(cmpSenha.getPassword());
+        String confirmacao = new String(cmpSenhaConfirmacao.getPassword());
+
+        if (senha.equals(confirmacao)) {
+            BancoDeDados bd = new BancoDeDados();
+            if (bd.usuarioExistente(cmpUsuario.getText().trim())) {
+                JOptionPane.showMessageDialog(null, "Usuário já cadastrado.");
+                cmpSenha.setText("");
+                cmpSenhaConfirmacao.setText("");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Senhas não conferem.");
             cmpSenha.setText("");
             cmpSenhaConfirmacao.setText("");
             return false;
         }
-        return true;
     }
 
     private Boolean preenchido() {
