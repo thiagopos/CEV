@@ -3,7 +3,7 @@ package com.model;
 import java.util.Date;
 
 public class Historico {
-
+    private Visitante visitante;
     private Funcionario responsavel;
     private Date dataAtualizacao;
     private String anotacao;
@@ -11,9 +11,19 @@ public class Historico {
     public Historico() {
     }
 
-    public Historico(Funcionario responsavel, Date dataAtualizacao) {
+    public Historico(Visitante visitante, Funcionario responsavel, Date dataAtualizacao, String anotacao) {
+        this.visitante = visitante;
         this.responsavel = responsavel;
         this.dataAtualizacao = dataAtualizacao;
+        this.anotacao = anotacao;
+    }
+
+    public Visitante getVisitante() {
+        return visitante;
+    }
+
+    public void setVisitante(Visitante visitante) {
+        this.visitante = visitante;
     }
 
     public void setResponsavel(Funcionario responsavel) {

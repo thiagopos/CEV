@@ -41,7 +41,7 @@ public class BancoDeDados {
                 .append("Local", visitante.getLocal())
                 .append("Vínculo", visitante.getVinculo())
                 .append("Data de Entrada", visitante.getDataEntrada())
-                .append("Imagem", visitante.getImagem());
+                .append("Imagem", B64.encodeToString(visitante.getImagem(), "JPG"));
         return documento;
     }
     
@@ -115,7 +115,7 @@ public class BancoDeDados {
             (String) d.get("Local"),
             (String) d.get("Vínculo"),
             (String) d.get("Data de Entrada"),
-            (String) d.get("Imagem")           
+            B64.decodeToImage((String) d.get("Imagem"))           
         );
         
         return visitante;

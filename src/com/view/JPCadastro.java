@@ -7,7 +7,6 @@ import com.model.Documento;
 import com.model.Visitante;
 import com.utils.UppercaseDocumentFilter;
 import com.sun.glass.events.KeyEvent;
-import com.utils.B64;
 import com.utils.BancoDeDados;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -276,7 +275,7 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpPaciente.setText(visitante.getPaciente());
         cmpLocal.setSelectedItem(visitante.getLocal());
         cmpVinculo.setText(visitante.getVinculo());
-        setImage(B64.decodeToImage(visitante.getImagem()));
+        setImage(visitante.getImagem());
     }
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -303,7 +302,7 @@ public class JPCadastro extends javax.swing.JPanel {
             visitante.setDataNascimento(cmpDtNasc.getText().trim());
             visitante.setVinculo(cmpVinculo.getText().trim());
             visitante.setLocal((String) cmpLocal.getSelectedItem());
-            visitante.setImagem(B64.encodeToString(image, "JPG"));
+            visitante.setImagem(image);
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");

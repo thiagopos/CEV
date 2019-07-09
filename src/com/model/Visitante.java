@@ -1,5 +1,7 @@
 package com.model;
 
+import java.awt.image.BufferedImage;
+
 public class Visitante extends Pessoa {
 
     private String local;
@@ -7,14 +9,14 @@ public class Visitante extends Pessoa {
     private String paciente;
     private String nomeMae;
     private String dataEntrada;
-    private String imagem;
+    private BufferedImage imagem;
 
     public Visitante() {
     }
 
     public Visitante(String nome, String dataNascimento, Documento doc,
                      String nomeMae, String paciente, String local, 
-                     String vinculo, String dataEntrada, String imagem) {
+                     String vinculo, String dataEntrada, BufferedImage imagem) {
         super(nome, dataNascimento, doc);
         this.nomeMae = nomeMae;
         this.paciente = paciente;
@@ -64,11 +66,11 @@ public class Visitante extends Pessoa {
         this.nomeMae = nomeMae;
     }
 
-    public String getImagem() {
+    public BufferedImage getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(BufferedImage imagem) {
         this.imagem = imagem;
     }    
     
