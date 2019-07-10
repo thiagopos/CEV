@@ -281,7 +281,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblVinculo">
       <Properties>
-        <Property name="text" type="java.lang.String" value="V&#xed;nculo:"/>
+        <Property name="text" type="java.lang.String" value="V&#xed;nculo com paciente:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cmpVinculo">

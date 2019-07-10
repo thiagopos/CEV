@@ -116,7 +116,7 @@ public class JPCadastro extends javax.swing.JPanel {
             ex.printStackTrace();
         }
 
-        lblVinculo.setText("Vínculo:");
+        lblVinculo.setText("Vínculo com paciente:");
 
         lblDtEntrada.setText("Data de Entrada:");
 

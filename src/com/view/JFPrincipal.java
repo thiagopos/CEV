@@ -1,6 +1,7 @@
 package com.view;
 
 import com.model.Funcionario;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class JFPrincipal extends javax.swing.JFrame {      
@@ -70,6 +71,11 @@ public class JFPrincipal extends javax.swing.JFrame {
         mnItemDesenvolvedores.setText("Sobre");
 
         mnDesenvolvedores.setText("Desenvolvedores");
+        mnDesenvolvedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDesenvolvedoresActionPerformed(evt);
+            }
+        });
         mnItemDesenvolvedores.add(mnDesenvolvedores);
 
         mnBar.add(mnItemDesenvolvedores);
@@ -89,9 +95,20 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItemCadastroActionPerformed
 
     private void mnItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSairActionPerformed
-        this.setPanel(new JPLogin(this));
-        //System.exit(0);        
+        this.setPanel(new JPLogin(this));            
     }//GEN-LAST:event_mnItemSairActionPerformed
+
+    private void mnDesenvolvedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDesenvolvedoresActionPerformed
+        JOptionPane.showMessageDialog(null, "CEV versão x.x.x\n\n"
+                + "Este sistema é um produtode de\n"
+                + "desenvolvimento conjunto entre\n"
+                + "funcionários para melhorias\n"
+                + "fundamentais do hospital\n\n"
+                + "Desenvolvido por:\n"
+                + "Jeanderson Cristovão Pedro Sardinha\n"
+                + "Thiago Gomes Possa");
+        
+    }//GEN-LAST:event_mnDesenvolvedoresActionPerformed
     
     private void setPanel(JPanel panel){ 
         this.getContentPane().removeAll();
@@ -130,15 +147,15 @@ public class JFPrincipal extends javax.swing.JFrame {
         switch(funcionarioLogado.getGrupo()){
             case "Funcionário":                
                 mnItemCadastro.setEnabled(true);
-                setPanel(new JPCadastro());
-                //this.pack();
+                setPanel(new JPCadastro());                
             break;
             case "Moderador":
+                mnItemCadastro.setEnabled(true);
+                setPanel(new JPCadastro());
             break;                
             case "Admin":
                 mnItemFuncionario.setEnabled(true);
-                setPanel(new JPFuncionario());
-                //this.pack();
+                setPanel(new JPFuncionario());                
             break;
         }
     }

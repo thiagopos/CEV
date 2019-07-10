@@ -3,7 +3,7 @@ package com.model;
 public abstract class Pessoa {
 
     private String nome;
-    private Documento documento;
+    private Documento doc;
     private String dataNascimento;
 
     public Pessoa() {
@@ -11,7 +11,7 @@ public abstract class Pessoa {
 
     public Pessoa(String nome, String dataNascimento, Documento documento) {
         this.nome = nome;
-        this.documento = documento;
+        this.doc = documento;
         this.dataNascimento = dataNascimento;
     }
 
@@ -32,10 +32,10 @@ public abstract class Pessoa {
     }
 
     public Documento getDoc() {
-        return documento;
+        return doc;
     }
 
     public void setDoc(Documento doc) {
-        this.documento = doc;
+        this.doc = doc;
     }
 }
