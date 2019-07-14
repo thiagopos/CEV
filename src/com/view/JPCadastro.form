@@ -54,61 +54,89 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblNome" min="-2" max="-2" attributes="0"/>
-                  <Component id="lnlNomeMae" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPaciente" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblVinculo" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblDtEntrada" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmpNome" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cmpDtEntrada" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cmpVinculo" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cmpPaciente" alignment="0" max="32767" attributes="0"/>
-                  <Component id="cmpNomeMae" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="btCadastrar" min="-2" pref="450" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jSeparator1" alignment="1" max="32767" attributes="0"/>
+                          <Component id="lblNome" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lnlNomeMae" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblVinculo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmpNome" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cmpVinculo" alignment="0" max="32767" attributes="0"/>
+                          <Component id="cmpNomeMae" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblDtNasc" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cmpDtNasc" min="-2" pref="113" max="-2" attributes="0"/>
-                                  <Component id="lblLocal" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="177" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="cmpLocal" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblDtNasc" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cmpDtNasc" min="-2" pref="113" max="-2" attributes="0"/>
+                                          <Component id="lblLocal" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="177" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblDocumento" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmpDocumento" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="cmpLocal" min="-2" pref="200" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblDocumento" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="cmpDocumento" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="lblTipo" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="cmpListaDoc" min="-2" pref="81" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblTipo" min="-2" max="-2" attributes="0"/>
-                                          <Component id="cmpListaDoc" min="-2" pref="81" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnCapturar" max="32767" attributes="0"/>
+                                  <Component id="lblImagem" min="-2" pref="160" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
+                          <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="cmpRH" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnBuscar" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="cmpPaciente" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnCapturar" max="32767" attributes="0"/>
-                          <Component id="lblImagem" min="-2" pref="160" max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="btCadastrar" alignment="0" min="-2" pref="450" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cmpRH" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cmpPaciente" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jSeparator1" min="-2" pref="7" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblNome" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -146,19 +174,11 @@
               <Component id="lnlNomeMae" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Component id="cmpNomeMae" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-              <Component id="lblPaciente" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-              <Component id="cmpPaciente" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="lblVinculo" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
               <Component id="cmpVinculo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-              <Component id="lblDtEntrada" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-              <Component id="cmpDtEntrada" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="btCadastrar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -168,7 +188,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblNome">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Nome:"/>
+        <Property name="text" type="java.lang.String" value="Nome visitante:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cmpNome">
@@ -221,16 +241,6 @@
     <Component class="javax.swing.JTextField" name="cmpNomeMae">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpNomeMae.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPaciente">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Paciente:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="cmpPaciente">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpPaciente.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblLocal">
@@ -289,23 +299,6 @@
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="((AbstractDocument) cmpVinculo.getDocument()).setDocumentFilter(filter);&#xd;&#xa;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblDtEntrada">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Data de Entrada:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JFormattedTextField" name="cmpDtEntrada">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format format="EEEE, d&apos; de &apos;MMMM&apos; de &apos;yyyy&apos;. &apos;HH&apos;h &apos;mm&apos;min &apos;ss&apos;s &apos;z" subtype="-1" type="1"/>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JButton" name="btCadastrar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -335,6 +328,33 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCapturarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Buscar RH do paciente:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpRH">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cmpRHKeyPressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nome paciente:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="cmpPaciente">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBuscar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Buscar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

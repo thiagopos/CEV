@@ -9,6 +9,7 @@ public class JFPrincipal extends javax.swing.JFrame {
     
     public JFPrincipal() {
         initComponents();
+        funcionarioLogado = new Funcionario();
         setPanel(new JPLogin(this));
         
     }  
@@ -91,7 +92,7 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItemFuncionarioActionPerformed
 
     private void mnItemCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemCadastroActionPerformed
-        setPanel(new JPCadastro());
+        setPanel(new JPCadastro(funcionarioLogado));
     }//GEN-LAST:event_mnItemCadastroActionPerformed
 
     private void mnItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSairActionPerformed
@@ -143,18 +144,20 @@ public class JFPrincipal extends javax.swing.JFrame {
         this.funcionarioLogado = funcionarioLogado;
     }
     
-    public void acesso(){
+    public void acesso(){   
+        
         switch(funcionarioLogado.getGrupo()){
             case "Funcionário":                
                 mnItemCadastro.setEnabled(true);
-                setPanel(new JPCadastro());                
+                setPanel(new JPCadastro(funcionarioLogado));                
             break;
             case "Moderador":
                 mnItemCadastro.setEnabled(true);
-                setPanel(new JPCadastro());
+                setPanel(new JPCadastro(funcionarioLogado));
             break;                
             case "Admin":
                 mnItemFuncionario.setEnabled(true);
+                mnItemCadastro.setEnabled(true);
                 setPanel(new JPFuncionario());                
             break;
         }

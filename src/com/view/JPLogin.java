@@ -90,7 +90,7 @@ public class JPLogin extends javax.swing.JPanel {
         BancoDeDados bd = new BancoDeDados();
         String usuario = cmpUsuario.getText().trim();
         String senha = new String(cmpSenha.getPassword());
-        Funcionario logado = bd.login(usuario, senha);
+        Funcionario logado = bd.login(usuario, senha);        
         principal.setFuncionarioLogado(logado); 
         principal.acesso();
     }//GEN-LAST:event_btnEntrarActionPerformed

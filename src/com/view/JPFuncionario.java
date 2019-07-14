@@ -216,6 +216,7 @@ public class JPFuncionario extends javax.swing.JPanel {
     }//GEN-LAST:event_btCadastrarActionPerformed
 
     public void limparCampos(){
+        cmpUsuario.setText("");
         cmpNome.setText("");
         cmpDocumento.setText("");
         cmpDtNasc.setText("");

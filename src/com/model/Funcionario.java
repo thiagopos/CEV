@@ -50,6 +50,10 @@ public class Funcionario extends Pessoa {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-        
+
+    @Override
+    public String toString() {
+        return "Funcionario{" + "periodo=" + periodo + ", usuario=" + usuario + ", senha=" + senha + ", grupo=" + grupo + '}';
+    }       
     
 }

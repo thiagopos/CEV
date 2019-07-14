@@ -3,7 +3,8 @@ package com.model;
 import java.util.Date;
 
 public class Visita {
-    private Visitante visitante;    
+    private Visitante visitante;
+    private String vinculo;
     private Date data;    
     private String local;    
     private Funcionario responsavel;
@@ -12,12 +13,21 @@ public class Visita {
         
     }
 
-    public Visita(Visitante visitante, Date data, String local, Funcionario responsavel) {
+    public Visita(Visitante visitante, String vinculo, Date data, String local, Funcionario responsavel) {
         this.visitante = visitante;
+        this.vinculo = vinculo;
         this.data = data;
         this.local = local;
         this.responsavel = responsavel;
     }
+
+    public String getVinculo() {
+        return vinculo;
+    }
+
+    public void setVinculo(String vinculo) {
+        this.vinculo = vinculo;
+    }    
 
     public Visitante getVisitante() {
         return visitante;
@@ -27,7 +37,7 @@ public class Visita {
         this.visitante = visitante;
     }
 
-    public Date getData() {
+    public Date getData() {        
         return data;
     }
 
