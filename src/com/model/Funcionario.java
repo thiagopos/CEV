@@ -5,17 +5,18 @@ public class Funcionario extends Pessoa {
     private String periodo;
     private String usuario;
     private String senha;
-    private Enum acesso;
-    
+    private String grupo;
     
     public Funcionario() {
     }
 
     public Funcionario(String nome, String dataNascimento, Documento doc,
-            String periodo, String senha, Enum acesso) {
+            String periodo, String usuario, String senha, String grupo) {
         super(nome, dataNascimento, doc);
-        this.periodo = periodo;
+        this.periodo = periodo;        
+        this.usuario = usuario;
         this.senha = senha;
+        this.grupo = grupo;
     }
 
     public void setPeriodo(String periodo) {
@@ -34,12 +35,12 @@ public class Funcionario extends Pessoa {
         return senha;
     }
 
-    public Enum getAcesso() {
-        return acesso;
+    public String getGrupo() {
+        return grupo;
     }
 
-    public void setAcesso(Enum acesso) {
-        this.acesso = acesso;
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
     }
 
     public String getUsuario() {
@@ -49,6 +50,10 @@ public class Funcionario extends Pessoa {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-        
+
+    @Override
+    public String toString() {
+        return "Funcionario{" + "periodo=" + periodo + ", usuario=" + usuario + ", senha=" + senha + ", grupo=" + grupo + '}';
+    }       
     
 }

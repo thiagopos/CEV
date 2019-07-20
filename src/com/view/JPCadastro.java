@@ -2,45 +2,39 @@ package com.view;
 
 import com.github.sarxos.webcam.Webcam;
 import java.util.Calendar;
-import org.bson.Document;
 import com.model.Documento;
+import com.model.Funcionario;
+import com.model.Paciente;
+import com.model.Visita;
 import com.model.Visitante;
-import com.mongodb.client.FindIterable;
 import com.utils.UppercaseDocumentFilter;
 import com.sun.glass.events.KeyEvent;
 import com.utils.B64;
 import com.utils.BancoDeDados;
-import com.utils.Zebra;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
-/*  Infelizmente apesar dos meus esforços essa classe tem
-muito a ser refatorado. Começando pela WebCam, a mesma não
-deveria ser responsavel por carregar nenhum de seus métodos
-tendo em vista que existe outro JFrame para tal.
-    A conversão no banco para base64 também deverá ser 
-responsabilidade da classe BancoDeDados tendo em vista que 
-a única funcionalidade desse algoritmo é para persistir os 
-dados.
-*/
-
 public class JPCadastro extends javax.swing.JPanel {
 
+    private Paciente paciente;
+    private Funcionario funcionarioLogado;
     private Visitante visitante;
     private BufferedImage image;
-    private BancoDeDados bd = new BancoDeDados();
-    private final Calendar dataInicial = Calendar.getInstance();
+    private final BancoDeDados bd = new BancoDeDados();
+    private final Calendar dataAtual = Calendar.getInstance();
     private final DocumentFilter filter = new UppercaseDocumentFilter();
-    private Document data;
 
-    public JPCadastro() {
-        initComponents();        
+    public JPCadastro(Funcionario funcionarioLogado) {
+        initComponents();
+        paciente = new Paciente();
         visitante = new Visitante();
+        this.funcionarioLogado = funcionarioLogado;
         image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
     }
 
@@ -64,9 +58,6 @@ public class JPCadastro extends javax.swing.JPanel {
         lnlNomeMae = new javax.swing.JLabel();
         cmpNomeMae = new javax.swing.JTextField();
         ((AbstractDocument) cmpNomeMae.getDocument()).setDocumentFilter(filter);
-        lblPaciente = new javax.swing.JLabel();
-        cmpPaciente = new javax.swing.JTextField();
-        ((AbstractDocument) cmpPaciente.getDocument()).setDocumentFilter(filter);
         lblLocal = new javax.swing.JLabel();
         cmpLocal = new javax.swing.JComboBox<>();
         lblDtNasc = new javax.swing.JLabel();
@@ -74,11 +65,15 @@ public class JPCadastro extends javax.swing.JPanel {
         lblVinculo = new javax.swing.JLabel();
         cmpVinculo = new javax.swing.JTextField();
         ((AbstractDocument) cmpVinculo.getDocument()).setDocumentFilter(filter);
-        lblDtEntrada = new javax.swing.JLabel();
-        cmpDtEntrada = new javax.swing.JFormattedTextField();
         btCadastrar = new javax.swing.JButton();
         lblImagem = new javax.swing.JLabel();
         btnCapturar = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        cmpRH = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        cmpPaciente = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -92,7 +87,7 @@ public class JPCadastro extends javax.swing.JPanel {
         jMenu4.setText("Edit");
         jMenuBar2.add(jMenu4);
 
-        lblNome.setText("Nome:");
+        lblNome.setText("Nome visitante:");
 
         cmpNome.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -115,8 +110,6 @@ public class JPCadastro extends javax.swing.JPanel {
 
         lnlNomeMae.setText("Nome da mãe:");
 
-        lblPaciente.setText("Paciente:");
-
         lblLocal.setText("Local:");
 
         cmpLocal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecionar", "Observação Feminina", "Observação Masculina", "Observação Infântil", "Choque", "Sutura", "Centro Obstétrico", "Centro Cirurgico", "UTI Adulto", "Berçario", "Clínica Obstétrica", "Clínica NeuroCirurgica", "Clínica Ortopédica", "Clínica Pediátrica", "UTI Pediátrica", "Clínica Cirúrgica", "Clínica de Saúde Mental", "Clínica Geral" }));
@@ -129,12 +122,7 @@ public class JPCadastro extends javax.swing.JPanel {
             ex.printStackTrace();
         }
 
-        lblVinculo.setText("Vínculo:");
-
-        lblDtEntrada.setText("Data de Entrada:");
-
-        cmpDtEntrada.setEditable(false);
-        cmpDtEntrada.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("EEEE, d' de 'MMMM' de 'yyyy'. 'HH'h 'mm'min 'ss's 'z"))));
+        lblVinculo.setText("Vínculo com paciente:");
 
         btCadastrar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btCadastrar.setText("Cadastrar");
@@ -154,53 +142,92 @@ public class JPCadastro extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setText("Buscar RH do paciente:");
+
+        cmpRH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmpRHKeyPressed(evt);
+            }
+        });
+
+        jLabel2.setText("Nome paciente:");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNome)
-                    .addComponent(lnlNomeMae)
-                    .addComponent(lblPaciente)
-                    .addComponent(lblVinculo)
-                    .addComponent(lblDtEntrada)
-                    .addComponent(cmpNome)
-                    .addComponent(cmpDtEntrada)
-                    .addComponent(cmpVinculo)
-                    .addComponent(cmpPaciente)
-                    .addComponent(cmpNomeMae)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNome)
+                            .addComponent(lnlNomeMae)
+                            .addComponent(lblVinculo)
+                            .addComponent(cmpNome)
+                            .addComponent(cmpVinculo)
+                            .addComponent(cmpNomeMae)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDtNasc)
-                                    .addComponent(cmpDtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblLocal))
-                                .addGap(177, 177, 177))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmpLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblDtNasc)
+                                            .addComponent(cmpDtNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblLocal))
+                                        .addGap(177, 177, 177))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblDocumento)
-                                            .addComponent(cmpDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblTipo)
-                                            .addComponent(cmpListaDoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(90, 90, 90)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnCapturar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblImagem, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
-                    .addComponent(btCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(cmpLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblDocumento)
+                                                    .addComponent(cmpDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblTipo)
+                                                    .addComponent(cmpListaDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(90, 90, 90)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnCapturar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(cmpRH, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBuscar))
+                            .addComponent(cmpPaciente))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmpRH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmpPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblNome)
                 .addGap(6, 6, 6)
                 .addComponent(cmpNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -231,19 +258,11 @@ public class JPCadastro extends javax.swing.JPanel {
                 .addComponent(lnlNomeMae)
                 .addGap(6, 6, 6)
                 .addComponent(cmpNomeMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(lblPaciente)
-                .addGap(6, 6, 6)
-                .addComponent(cmpPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblVinculo)
                 .addGap(6, 6, 6)
                 .addComponent(cmpVinculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(lblDtEntrada)
-                .addGap(6, 6, 6)
-                .addComponent(cmpDtEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btCadastrar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -252,7 +271,7 @@ public class JPCadastro extends javax.swing.JPanel {
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
 
         if (instanciaValores()) {
-            bd.add(visitante);
+            bd.add(paciente);
             limparCampos();
             System.out.println("Impressão omitida para testes, linha 247 da classe JPCadastro");
             //Zebra.print(visitante);
@@ -264,23 +283,16 @@ public class JPCadastro extends javax.swing.JPanel {
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            ArrayList<Visitante> listaBusca = new ArrayList();
+            List<Visitante> listaBusca = new ArrayList();
             String nome = cmpNome.getText().trim();
-            ArrayList<Visitante> buscaNome = bd.buscaNome(nome);
-            for (Visitante a : buscaNome) {
+            List<Visitante> buscaNome = bd.buscaNome(nome);
+            buscaNome.forEach((a) -> {
                 listaBusca.add(a);
-            }
-            if (listaBusca.size() == 1) {           
-                cmpDtNasc.setText(listaBusca.get(0).getDataNascimento());
-                cmpDocumento.setText(listaBusca.get(0).getDoc().getNumeroDoc());
-                cmpListaDoc.setSelectedItem(listaBusca.get(0).getDoc().getTipoDoc());
-                cmpNomeMae.setText(listaBusca.get(0).getNomeMae());
-                cmpPaciente.setText(listaBusca.get(0).getPaciente());
-                cmpLocal.setSelectedItem(listaBusca.get(0).getLocal());
-                cmpVinculo.setText(listaBusca.get(0).getVinculo());
-                setImage(B64.decodeToImage(listaBusca.get(0).getImagem()));
+            });
+            if (listaBusca.size() == 1) {
+                autoPreencher(listaBusca.get(0));
             } else {
-                JFListaBusca jfListaBusca = new JFListaBusca(this, listaBusca);
+                JFListaBusca jfListaBusca = new JFListaBusca(this, (ArrayList<Visitante>) listaBusca);
                 jfListaBusca.setVisible(true);
             }
         }
@@ -292,28 +304,16 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpDocumento.setText(visitante.getDoc().getNumeroDoc());
         cmpListaDoc.setSelectedItem(visitante.getDoc().getTipoDoc());
         cmpNomeMae.setText(visitante.getNomeMae());
-        cmpPaciente.setText(visitante.getPaciente());
-        cmpLocal.setSelectedItem(visitante.getLocal());
-        cmpVinculo.setText(visitante.getVinculo());
         setImage(B64.decodeToImage(visitante.getImagem()));
     }
     private void cmpDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpDocumentoKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
-            String doc = cmpDocumento.getText();
+            String documento = cmpDocumento.getText();
 
-            if (doc.length() > 8) {
-                data = bd.buscaDoc(doc);
-                String jsonString = data.toJson();
-                data = Document.parse(jsonString);
-                cmpNome.setText((String) data.get("Nome"));
-                cmpDtNasc.setText((String) data.get("Data de Nascimento"));
-                cmpListaDoc.setSelectedItem((String) data.get("Tipo"));
-                cmpNomeMae.setText((String) data.get("Nome da Mãe"));
-                cmpPaciente.setText((String) data.get("Paciente"));
-                cmpLocal.setSelectedItem((String) data.get("Local"));
-                cmpVinculo.setText((String) data.get("Vínculo"));
-                setImage(B64.decodeToImage((String) data.get("Imagem")));
+            if (documento.length() > 8) {
+                Visitante result = bd.buscaDocumento(documento);
+                autoPreencher(result);
             }
         }
     }//GEN-LAST:event_cmpDocumentoKeyPressed
@@ -322,16 +322,33 @@ public class JPCadastro extends javax.swing.JPanel {
 
         if (preenchido()) {
 
-            visitante.setNome(cmpNome.getText().trim());
-            visitante.setNomeMae(cmpNomeMae.getText().trim());
-            visitante.setPaciente(cmpPaciente.getText().trim());
-            visitante.setDoc(new Documento(cmpDocumento.getText().trim(),
-                    (String) cmpListaDoc.getSelectedItem()));
-            visitante.setDataEntrada(dataInicial.getTime().toString());
-            visitante.setDataNascimento(cmpDtNasc.getText().trim());
-            visitante.setVinculo(cmpVinculo.getText().trim());
-            visitante.setLocal((String) cmpLocal.getSelectedItem());
-            visitante.setImagem(B64.encodeToString(image, "JPG"));
+            visitante = new Visitante(
+                    cmpNomeMae.getText().trim(),
+                    B64.encodeToString(image, "JPG"),
+                    cmpNome.getText().trim(),
+                    cmpDtNasc.getText().trim(),
+                    new Documento(
+                            cmpDocumento.getText().trim(),
+                            (String) cmpListaDoc.getSelectedItem())
+            );
+
+            Visita visita = new Visita(
+                    visitante,
+                    cmpVinculo.getText().trim(),
+                    dataAtual.getTime(),
+                    (String) cmpLocal.getSelectedItem(),
+                    funcionarioLogado
+            );
+
+            List<Visita> arrVisita = new ArrayList();
+            arrVisita.add(visita);
+
+            paciente = new Paciente(
+                    cmpPaciente.getText().trim(),
+                    cmpRH.getText().trim(),
+                    arrVisita
+            );
+
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
@@ -351,15 +368,12 @@ public class JPCadastro extends javax.swing.JPanel {
         if (cmpPaciente.getText().trim().isEmpty() || cmpVinculo.getText().trim().isEmpty()) {
             return false;
         }
-        if (cmpLocal.getSelectedIndex() == 0) {
-            return false;
-        }
-        return true;
+        return cmpLocal.getSelectedIndex() != 0;
 
     }
 
     public void limparCampos() {
-
+        cmpRH.setText("");
         cmpNome.setText("");
         cmpDtNasc.setText("");
         cmpDocumento.setText("");
@@ -368,7 +382,6 @@ public class JPCadastro extends javax.swing.JPanel {
         cmpPaciente.setText("");
         cmpLocal.getItemAt(0);
         cmpVinculo.setText("");
-        cmpDtEntrada.setText("");
         lblImagem.setIcon(new ImageIcon());
 
     }
@@ -385,6 +398,30 @@ public class JPCadastro extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnCapturarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        ArrayList<Visitante> listaBusca = new ArrayList();
+        String rh = cmpRH.getText().trim();
+        ArrayList<Visitante> buscaRH = (ArrayList<Visitante>) bd.busca(rh);
+        buscaRH.forEach((a) -> {
+            listaBusca.add(a);
+        });
+        if (listaBusca.size() == 1) {
+            autoPreencher(listaBusca.get(0));
+        } else {
+            JFListaBusca jfListaBusca = new JFListaBusca(this, listaBusca);
+            jfListaBusca.setVisible(true);
+        }
+
+        paciente = bd.buscaRH(cmpRH.getText().trim());
+        cmpPaciente.setText(paciente.getNome());
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void cmpRHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmpRHKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER || evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnBuscar.doClick();
+        }
+    }//GEN-LAST:event_cmpRHKeyPressed
+
     public void setImage(BufferedImage image) {
 
         this.image = image;
@@ -395,29 +432,31 @@ public class JPCadastro extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCapturar;
     private javax.swing.JTextField cmpDocumento;
-    javax.swing.JFormattedTextField cmpDtEntrada;
     private javax.swing.JFormattedTextField cmpDtNasc;
     private javax.swing.JComboBox<String> cmpListaDoc;
     private javax.swing.JComboBox<String> cmpLocal;
     private javax.swing.JTextField cmpNome;
     private javax.swing.JTextField cmpNomeMae;
     private javax.swing.JTextField cmpPaciente;
+    private javax.swing.JTextField cmpRH;
     private javax.swing.JTextField cmpVinculo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblDocumento;
-    private javax.swing.JLabel lblDtEntrada;
     private javax.swing.JLabel lblDtNasc;
     private javax.swing.JLabel lblImagem;
     private javax.swing.JLabel lblLocal;
     private javax.swing.JLabel lblNome;
-    private javax.swing.JLabel lblPaciente;
     private javax.swing.JLabel lblTipo;
     private javax.swing.JLabel lblVinculo;
     private javax.swing.JLabel lnlNomeMae;

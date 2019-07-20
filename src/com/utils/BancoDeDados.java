@@ -1,153 +1,168 @@
 package com.utils;
 
-import com.model.Documento;
+import com.google.gson.Gson;
 import com.model.Funcionario;
+import com.model.Paciente;
+import com.model.Visita;
 import com.model.Visitante;
 import com.mongodb.client.*;
 import static com.mongodb.client.model.Filters.*;
 import java.util.ArrayList;
+import java.util.List;
 import org.bson.Document;
 
-/*  A refatoração desta classe se fez necessária para que as demais 
-classes do projeto não tivessem que tratar da camada de banco de dados,
-como a manipulação de objetos do tipo Document ou tratar a conexão com o
-banco de dados.
-    Os metodos add() são responsáveis por receber os objetos, iniciar a
-conexão com o banco de dados, persistir os dados e fechar a conexão.
-    Ainda não foram implementados os objetos que farão os updates nos dados
-cadastrados de visitente, e a possibilidade de deletar cadastros de funcionários,
-algo que ainda não foi pensado no modelo (my fault).
-    Também será implementado um método que faz a busca pelo usuario e senha do 
-funcionário, de forma que desonere a classe JPInicio que esta responsavel por 
-todo o tratamento.
-    Essa será a unica classe que importa os pacotes do MongoDB, quando isso 
-for possível saberemos que o código esta refatorado.
-*/
-
-
 public class BancoDeDados {
+
+    MongoClient client = MongoClients.create("mongodb://localhost:27017");
+    MongoDatabase database = client.getDatabase("CEV");
+    private final Gson gson = new Gson();
     
-    private final String CONNECTION = "mongodb://localhost:27017";
-        
-    //ADD VISITANTE      
-    public void add(Visitante visitante) {
-        MongoClient client = MongoClients.create(CONNECTION);
-        MongoDatabase database = client.getDatabase("Visitante");
-        MongoCollection<Document> visitantes;
-        visitantes = database.getCollection("Visitantes");
-        visitantes.insertOne(toDocument(visitante));
-        client.close();
+    //refatorar
+    public Paciente buscaRH(String rh) {
+        MongoCollection<Document> visitas;
+        visitas = database.getCollection("Visitas");
+        Document encontrado = visitas.find(
+                new Document("RH", rh)).first();
+
+        if (encontrado != null) {            
+            return parsePaciente(encontrado);
+        } else {
+            return buscaBancoAGHU(rh);
+        }
     }
-    //ADD FUNCIONARIO 
-    public void add(Funcionario funcionario) {
-        MongoClient client = MongoClients.create(CONNECTION);
-        MongoDatabase database = client.getDatabase("Funcionario");
+    //refatorar
+    public List<Visitante> busca(String rh) {        
+        MongoCollection<Document> visitantes;
+        visitantes = database.getCollection("Visitas");
+
+        Document result = visitantes.find(new Document("registroHospitalar", rh)).first();
+                      
+        Paciente encontrado = gson.fromJson(result.toJson(), Paciente.class);
+        
+        ArrayList<Visitante> v = new ArrayList();
+        
+        encontrado.getVisitas().forEach((a) -> {
+            v.add(a.getVisitante());
+        });
+        
+        return v;
+    }
+
+    public Paciente buscaBancoAGHU(String rh) {
+
+        MongoDatabase d = client.getDatabase("Paciente");
+        MongoCollection<Document> pacientes;
+        pacientes = d.getCollection("Pacientes");
+        Document encontrado = pacientes.find(
+                new Document("RH", rh)).first();
+        return parsePaciente(encontrado);
+    }
+
+    public boolean usuarioExistente(String usuario) {
+
         MongoCollection<Document> funcionarios;
         funcionarios = database.getCollection("Funcionarios");
-        funcionarios.insertOne(toDocument(funcionario));
-        client.close();
+
+        Document result = funcionarios.find(
+                new Document("usuario", usuario)).first();
+        return result != null;
+    }  
+
+    public void add(Paciente paciente) {
+        MongoCollection<Document> visitas;
+        visitas = database.getCollection("Visitas");
+        Document existente = visitas.find(
+                new Document("registroHospitalar", paciente.getRegistroHospitalar())).first();
+        if (existente != null) {            
+            Paciente aux = gson.fromJson(existente.toJson(), Paciente.class);
+            aux.getVisitas().add(paciente.getVisitas().get(0));
+            visitas.findOneAndDelete(
+                    new Document("registroHospitalar", paciente.getRegistroHospitalar()));
+            visitas.insertOne(Document.parse(gson.toJson(aux)));
+            add(paciente.getVisitas().get(0).getVisitante());
+        } else {
+            visitas.insertOne(Document.parse(gson.toJson(paciente)));
+            add(paciente.getVisitas().get(0).getVisitante());
+        }
+
     }
+
+    public void add(Visitante visitante) {
+
+        MongoCollection<Document> visitantes;
+        visitantes = database.getCollection("Visitantes");
+        visitantes.insertOne(Document.parse(gson.toJson(visitante)));
+
+    }
+
+    public void add(Funcionario funcionario) {
+
+        MongoCollection<Document> funcionarios;
+        funcionarios = database.getCollection("Funcionarios");
+        funcionarios.insertOne(Document.parse(gson.toJson(funcionario)));
+
+    }  
     
-    //CONVERTE VISITANTE PARA DOCUMENT
-    private Document toDocument(Visitante visitante) {
-        Document documento = new Document("Nome", visitante.getNome())
-                .append("Data de Nascimento", visitante.getDataNascimento())
-                .append("Documento", visitante.getDoc().getNumeroDoc())
-                .append("Tipo", visitante.getDoc().getTipoDoc())
-                .append("Nome da Mãe", visitante.getNomeMae())
-                .append("Paciente", visitante.getPaciente())
-                .append("Local", visitante.getLocal())
-                .append("Vínculo", visitante.getVinculo())
-                .append("Data de Entrada", visitante.getDataEntrada())
-                .append("Imagem", visitante.getImagem());
-        return documento;
-    }
-    //CONVERTE VISITANTE PARA DOCUMENT
-    private Document toDocument(Funcionario funcionario) {
-        Document documento = new Document("Nome", funcionario.getNome())
-                .append("Data de Nascimento", funcionario.getDataNascimento())
-                .append("Documento", funcionario.getDoc().getNumeroDoc())
-                .append("Tipo", funcionario.getDoc().getTipoDoc())
-                .append("Periodo", funcionario.getPeriodo())
-                .append("Usuario", funcionario.getUsuario())
-                .append("Senha", funcionario.getSenha())
-                .append("Acesso", funcionario.getAcesso());
-        return documento;
-    }
-    //BUSCA NOME REGEX
+
     public ArrayList<Visitante> buscaNome(String nome) {
-        MongoClient client = MongoClients.create(CONNECTION);
-        MongoDatabase database = client.getDatabase("Visitante");
+
         MongoCollection<Document> visitantes;
         visitantes = database.getCollection("Visitantes");
 
         ArrayList<Document> result = (ArrayList<Document>) visitantes.find()
-                .filter(regex("Nome", nome)).into(new ArrayList<>());
+                .filter(regex("nome", nome)).into(new ArrayList<>());
 
-        client.close();
         return toArrayList(result);
     }
-    
-    //CRIA ARRAYLIST DE OBJETOS
+
     private ArrayList<Visitante> toArrayList(ArrayList<Document> visitantes) {
-        
+
         ArrayList<Visitante> listaVisitantes = new ArrayList();
-        
-        for (Document d : visitantes)
-            listaVisitantes.add(parseDocument(d));
-                
+
+        visitantes.forEach((d) -> {
+            listaVisitantes.add(
+                    gson.fromJson(d.toJson(), Visitante.class));
+        });
+
         return listaVisitantes;
-        
+
     }
-    
-    // FAZ O PARSE DE VISITANTES
-    private Visitante parseDocument(Document d) {      
-               
-        d = Document.parse(d.toJson());
-        Visitante visitante = new Visitante(
-            (String) d.get("Nome"),
-            (String) d.get("Data de Nascimento"),
-            new Documento(
-                (String) d.get("Documento"), 
-                (String) d.get("Tipo")),
-            (String) d.get("Nome da Mãe"),
-            (String) d.get("Paciente"),
-            (String) d.get("Local"),
-            (String) d.get("Vínculo"),
-            (String) d.get("Data de Entrada"),
-            (String) d.get("Imagem")           
+
+    public Funcionario login(String usuario, String senha) {
+
+        MongoCollection<Document> funcionarios;
+        funcionarios = database.getCollection("Funcionarios");
+
+        Document result = funcionarios.find().filter(
+                new Document("usuario", usuario).append("senha", senha)).first();
+
+        if (result != null) {
+            return gson.fromJson(result.toJson(), Funcionario.class);
+        }
+        return null;
+    }
+
+    private Paciente parsePaciente(Document p) {
+        List<Visita> lista = new ArrayList();
+        lista.add(new Visita());
+        p = Document.parse(p.toJson());
+        Paciente paciente = new Paciente(
+                (String) p.get("Nome"),
+                (String) p.get("RH"),
+                lista
         );
-        
-        return visitante;
-        
+
+        return paciente;
+
     }
-    
-    //DAQUI PRA FRENTE NADA FEITO
-    
-    public Document buscaDoc(String documento) {
-        MongoClient client = MongoClients.create(CONNECTION);
-        MongoDatabase database = client.getDatabase("Visitante");
+
+    public Visitante buscaDocumento(String documento) {
+
         MongoCollection<Document> visitantes;
-        visitantes = database.getCollection("Visitantes");        
-        Object encontrado = visitantes.find(
-            new Document("Documento", documento)).first();
-        return (Document) encontrado;
-    }
-    
-    /*
-
-    public Document teste(FindIterable<Document> teste) {
-        database1 = DB.getDatabase("Visitante");
-        collection = database1.getCollection("Visitante");
-        FindIterable<Document> entrada = teste;
-        Document encontrado = entrada.first();
-        return encontrado;
+        visitantes = database.getCollection("Visitantes");
+        Document encontrado = visitantes.find(
+                new Document("documento", documento)).first();
+        return gson.fromJson(encontrado.toJson(), Visitante.class);
     }
 
-    public long contadorBusca(String nome) {
-        database1 = DB.getDatabase("Visitante");
-        collection = database1.getCollection("Visitante");
-        long contador = collection.countDocuments(regex("Nome", nome));
-        return contador;
-    } */
 }

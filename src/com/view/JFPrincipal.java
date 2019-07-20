@@ -1,40 +1,44 @@
 package com.view;
 
+import com.model.Funcionario;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class JFPrincipal extends javax.swing.JFrame {      
- 
+    private Funcionario funcionarioLogado;
+    
     public JFPrincipal() {
         initComponents();
-        setPanel(new JPInicio());
+        funcionarioLogado = new Funcionario();
+        setPanel(new JPLogin(this));
+        
     }  
  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
+        mnBar = new javax.swing.JMenuBar();
         mnMenu = new javax.swing.JMenu();
         mnItemCadastro = new javax.swing.JMenuItem();
         mnItemFuncionario = new javax.swing.JMenuItem();
         mnItemRelatorio = new javax.swing.JMenuItem();
         mnItemSair = new javax.swing.JMenuItem();
         mnItemDesenvolvedores = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mnDesenvolvedores = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(445, 445));
-        setPreferredSize(new java.awt.Dimension(500, 600));
+        setMinimumSize(new java.awt.Dimension(280, 215));
         setResizable(false);
         getContentPane().setLayout(null);
 
-        jMenuBar1.setMinimumSize(null);
-        jMenuBar1.setName(""); // NOI18N
+        mnBar.setMinimumSize(null);
+        mnBar.setName(""); // NOI18N
 
         mnMenu.setText("Menu");
 
-        mnItemCadastro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
         mnItemCadastro.setText("Visitantes");
+        mnItemCadastro.setEnabled(false);
         mnItemCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemCadastroActionPerformed(evt);
@@ -42,8 +46,8 @@ public class JFPrincipal extends javax.swing.JFrame {
         });
         mnMenu.add(mnItemCadastro);
 
-        mnItemFuncionario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.ALT_MASK));
         mnItemFuncionario.setText("Funcionários");
+        mnItemFuncionario.setEnabled(false);
         mnItemFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemFuncionarioActionPerformed(evt);
@@ -52,21 +56,32 @@ public class JFPrincipal extends javax.swing.JFrame {
         mnMenu.add(mnItemFuncionario);
 
         mnItemRelatorio.setText("Relatório");
+        mnItemRelatorio.setEnabled(false);
         mnMenu.add(mnItemRelatorio);
 
         mnItemSair.setText("Sair");
+        mnItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemSairActionPerformed(evt);
+            }
+        });
         mnMenu.add(mnItemSair);
 
-        jMenuBar1.add(mnMenu);
+        mnBar.add(mnMenu);
 
         mnItemDesenvolvedores.setText("Sobre");
 
-        jMenuItem3.setText("Desenvolvedores");
-        mnItemDesenvolvedores.add(jMenuItem3);
+        mnDesenvolvedores.setText("Desenvolvedores");
+        mnDesenvolvedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDesenvolvedoresActionPerformed(evt);
+            }
+        });
+        mnItemDesenvolvedores.add(mnDesenvolvedores);
 
-        jMenuBar1.add(mnItemDesenvolvedores);
+        mnBar.add(mnItemDesenvolvedores);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mnBar);
 
         pack();
         setLocationRelativeTo(null);
@@ -77,19 +92,34 @@ public class JFPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItemFuncionarioActionPerformed
 
     private void mnItemCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemCadastroActionPerformed
-        setPanel(new JPCadastro());
+        setPanel(new JPCadastro(funcionarioLogado));
     }//GEN-LAST:event_mnItemCadastroActionPerformed
+
+    private void mnItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSairActionPerformed
+        this.setPanel(new JPLogin(this));            
+    }//GEN-LAST:event_mnItemSairActionPerformed
+
+    private void mnDesenvolvedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDesenvolvedoresActionPerformed
+        JOptionPane.showMessageDialog(null, "CEV versão x.x.x\n\n"
+                + "Este sistema é um produtode de\n"
+                + "desenvolvimento conjunto entre\n"
+                + "funcionários para melhorias\n"
+                + "fundamentais do hospital\n\n"
+                + "Desenvolvido por:\n"
+                + "Jeanderson Cristovão Pedro Sardinha\n"
+                + "Thiago Gomes Possa");
+        
+    }//GEN-LAST:event_mnDesenvolvedoresActionPerformed
     
-    private void setPanel(JPanel panel){        
-        this.setContentPane(panel); 
+    private void setPanel(JPanel panel){ 
+        this.getContentPane().removeAll();
+        this.setContentPane(panel);
+        this.repaint();
+        this.pack();
     }
     
     public static void main(String args[]) {               
       
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -97,27 +127,45 @@ public class JFPrincipal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-              
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JFPrincipal().setVisible(true);
-            }
+      
+        java.awt.EventQueue.invokeLater(() -> {
+            new JFPrincipal().setVisible(true);
         });
     }
 
+    public Funcionario getFuncionarioLogado() {
+        return funcionarioLogado;
+    }
+
+    public void setFuncionarioLogado(Funcionario funcionarioLogado) {
+        this.funcionarioLogado = funcionarioLogado;
+    }
+    
+    public void acesso(){   
+        
+        switch(funcionarioLogado.getGrupo()){
+            case "Funcionário":                
+                mnItemCadastro.setEnabled(true);
+                setPanel(new JPCadastro(funcionarioLogado));                
+            break;
+            case "Moderador":
+                mnItemCadastro.setEnabled(true);
+                setPanel(new JPCadastro(funcionarioLogado));
+            break;                
+            case "Admin":
+                mnItemFuncionario.setEnabled(true);
+                mnItemCadastro.setEnabled(true);
+                setPanel(new JPFuncionario());                
+            break;
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuBar mnBar;
+    private javax.swing.JMenuItem mnDesenvolvedores;
     private javax.swing.JMenuItem mnItemCadastro;
     private javax.swing.JMenu mnItemDesenvolvedores;
     private javax.swing.JMenuItem mnItemFuncionario;
